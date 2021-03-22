@@ -9,11 +9,6 @@
         <outputRelativeToContentRoot value="true" />
         <module name="MyTaskManager" />
       </profile>
-      <profile name="NewProfile" enabled="true">
-        <sourceOutputDir name="target/generated-sources/annotations" />
-        <sourceTestOutputDir name="target/generated_tests-sources/test-annotations" />
-        <outputRelativeToContentRoot value="true" />
-      </profile>
     </annotationProcessing>
   </component>
 </project>
