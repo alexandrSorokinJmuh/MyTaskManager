@@ -5,14 +5,12 @@ import com.taskManger.entities.User;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
+import java.util.function.Predicate;
 
 public class Main {
     public static void main(String[] args) {
-        List<User> userList = new LinkedList<User>();
-        for(int i = 0; i < 10; i++){
-            userList.add(new User(UUID.randomUUID().toString(), "asd" + i, "123", "j" + i, "l" + i));
-        }
+        Predicate<String> p = (String s) -> { return s == null;};
 
-        System.out.println(userList);
+        System.out.println(p.test("asd"));
     }
 }
