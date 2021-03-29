@@ -1,29 +1,44 @@
 package com.taskManger.DataStorage;
 
+import com.fasterxml.jackson.databind.JavaType;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.taskManger.entities.ListOfTasks;
 import com.taskManger.entities.Tasks;
 import com.taskManger.entities.User;
 import com.taskManger.entities.WatcherForTasks;
+import lombok.ToString;
 
+import java.io.*;
+import java.nio.file.Files;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 
+@ToString
 public class DataStorage {
-    List<User> userList;
-    List<Tasks> tasksList;
-    List<ListOfTasks> listOfTasks;
-    List<WatcherForTasks> watcherForTasksList;
+    private static DataStorage instance;
+    List<User> userList = new ArrayList<>();
+    List<Tasks> tasksList = new ArrayList<>();
+    List<ListOfTasks> listOfTasks = new ArrayList<>();
+    List<WatcherForTasks> watcherForTasksList = new ArrayList<>();
 
-    private DataStorage(){
+
+    private DataStorage() {
 
     }
 
-    public DataStorage getInstance(){
-        return this;
+
+
+    public static DataStorage getInstance() {
+        if (instance == null) {
+            instance = new DataStorage();
+        }
+        return instance;
     }
 
     public List<User> getUserList() {
-        return new ArrayList(userList);
+        return userList;
     }
 
     public void setUserList(List<User> userList) {
@@ -53,4 +68,6 @@ public class DataStorage {
     public void setWatcherForTasksList(List<WatcherForTasks> watcherForTasksList) {
         this.watcherForTasksList = watcherForTasksList;
     }
+
+
 }

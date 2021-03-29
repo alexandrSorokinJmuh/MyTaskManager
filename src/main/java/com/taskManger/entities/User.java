@@ -1,5 +1,6 @@
 package com.taskManger.entities;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.*;
 
 import java.util.Iterator;
@@ -8,8 +9,20 @@ import java.util.Map;
 import java.util.UUID;
 
 @Data
-public class User implements Entity {
+public class User extends Entity {
 
+    public User(@NonNull String uuid, @NonNull String username, @NonNull String password, @NonNull String firstName, @NonNull String lastName, String phone) {
+        this.uuid = uuid;
+        this.username = username;
+        this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.phone = phone;
+    }
+
+    public User(){
+
+    }
     @NonNull
     private String uuid;
 
@@ -40,5 +53,5 @@ public class User implements Entity {
     String firstName;
     @NonNull
     String lastName;
-    String phone;
+    String phone = "";
 }
