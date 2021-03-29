@@ -1,0 +1,136 @@
+{
+  "userList" : [ {
+    "uuid" : "a8df228d-2493-4dfa-9458-44b6a9ddcdba",
+    "username" : "alesha0",
+    "password" : "688787d8ff144c502c7f5cffaafe2cc588d86079f9de88304c26b0cb99ce91c6",
+    "firstName" : "as",
+    "lastName" : "sd",
+    "phone" : "123"
+  }, {
+    "uuid" : "99fc997d-8bb8-4dba-af0f-7d17cf370d9b",
+    "username" : "alesha1",
+    "password" : "688787d8ff144c502c7f5cffaafe2cc588d86079f9de88304c26b0cb99ce91c6",
+    "firstName" : "as",
+    "lastName" : "sd",
+    "phone" : "123"
+  }, {
+    "uuid" : "2c00a874-88ba-45d9-9ee5-060e0582908d",
+    "username" : "alesha2",
+    "password" : "688787d8ff144c502c7f5cffaafe2cc588d86079f9de88304c26b0cb99ce91c6",
+    "firstName" : "as",
+    "lastName" : "sd",
+    "phone" : "123"
+  }, {
+    "uuid" : "2262ee9b-0516-4b73-b92a-dcd38bb13e97",
+    "username" : "alesha3",
+    "password" : "688787d8ff144c502c7f5cffaafe2cc588d86079f9de88304c26b0cb99ce91c6",
+    "firstName" : "as",
+    "lastName" : "sd",
+    "phone" : "123"
+  }, {
+    "uuid" : "4bf78bb5-4d32-4c6f-a630-a89577595163",
+    "username" : "alesha4",
+    "password" : "688787d8ff144c502c7f5cffaafe2cc588d86079f9de88304c26b0cb99ce91c6",
+    "firstName" : "as",
+    "lastName" : "sd",
+    "phone" : "123"
+  }, {
+    "uuid" : "3c66fd92-b512-45fd-b758-c23c353751f7",
+    "username" : "alesha5",
+    "password" : "688787d8ff144c502c7f5cffaafe2cc588d86079f9de88304c26b0cb99ce91c6",
+    "firstName" : "as",
+    "lastName" : "sd",
+    "phone" : "123"
+  }, {
+    "uuid" : "5cf11f5d-ef29-4a84-a385-cd7f7e76fdb3",
+    "username" : "alesha6",
+    "password" : "688787d8ff144c502c7f5cffaafe2cc588d86079f9de88304c26b0cb99ce91c6",
+    "firstName" : "as",
+    "lastName" : "sd",
+    "phone" : "123"
+  }, {
+    "uuid" : "2be3935e-9a73-493a-bed5-8e9d698f4282",
+    "username" : "alesha7",
+    "password" : "688787d8ff144c502c7f5cffaafe2cc588d86079f9de88304c26b0cb99ce91c6",
+    "firstName" : "as",
+    "lastName" : "sd",
+    "phone" : "123"
+  }, {
+    "uuid" : "970be11b-6333-401d-b923-cb88264fb383",
+    "username" : "alesha8",
+    "password" : "688787d8ff144c502c7f5cffaafe2cc588d86079f9de88304c26b0cb99ce91c6",
+    "firstName" : "as",
+    "lastName" : "sd",
+    "phone" : "123"
+  }, {
+    "uuid" : "0573836f-e439-482c-8799-e2505c5a8659",
+    "username" : "alesha9",
+    "password" : "688787d8ff144c502c7f5cffaafe2cc588d86079f9de88304c26b0cb99ce91c6",
+    "firstName" : "as",
+    "lastName" : "sd",
+    "phone" : "123"
+  } ],
+  "tasksList" : [ {
+    "uuid" : "1d2301cb-b09e-4090-829f-3a673b07963e",
+    "name" : "task0",
+    "description" : "",
+    "alert_time" : "2021-03-29T16:56:59+0400",
+    "alert_received" : false
+  }, {
+    "uuid" : "9c8bf44a-d0f8-4da4-b23b-68ebb8223323",
+    "name" : "task1",
+    "description" : "",
+    "alert_time" : "2021-03-29T16:56:59+0400",
+    "alert_received" : false
+  }, {
+    "uuid" : "b60eff43-8a19-49d1-9225-9a3fe035d7ac",
+    "name" : "task2",
+    "description" : "",
+    "alert_time" : "2021-03-29T16:56:59+0400",
+    "alert_received" : false
+  }, {
+    "uuid" : "d3c86013-5c15-4c9f-aae4-a693033e0f57",
+    "name" : "task3",
+    "description" : "",
+    "alert_time" : "2021-03-29T16:56:59+0400",
+    "alert_received" : false
+  }, {
+    "uuid" : "981de119-5081-4ac9-8e8b-2a5d83470927",
+    "name" : "task4",
+    "description" : "",
+    "alert_time" : "2021-03-29T16:56:59+0400",
+    "alert_received" : false
+  }, {
+    "uuid" : "fbc1b249-acde-4081-8125-b2978370f33f",
+    "name" : "task5",
+    "description" : "",
+    "alert_time" : "2021-03-29T16:56:59+0400",
+    "alert_received" : false
+  }, {
+    "uuid" : "61fdb2aa-749f-4d34-9e45-3bca2ff76608",
+    "name" : "task6",
+    "description" : "",
+    "alert_time" : "2021-03-29T16:56:59+0400",
+    "alert_received" : false
+  }, {
+    "uuid" : "45dcc638-8a96-49e7-b5d4-6a14823caedd",
+    "name" : "task7",
+    "description" : "",
+    "alert_time" : "2021-03-29T16:56:59+0400",
+    "alert_received" : false
+  }, {
+    "uuid" : "4a1cc98f-ea9e-4e36-b587-8f8229999ca3",
+    "name" : "task8",
+    "description" : "",
+    "alert_time" : "2021-03-29T16:56:59+0400",
+    "alert_received" : false
+  }, {
+    "uuid" : "e2d3d88a-4df2-44c2-a769-76f6131e2f10",
+    "name" : "task9",
+    "description" : "",
+    "alert_time" : "2021-03-29T16:56:59+0400",
+    "alert_received" : false
+  } ],
+  "watcherForTasks" : [ ],
+  "listOfTasks" : [ ]
+}

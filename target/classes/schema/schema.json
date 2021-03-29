@@ -1,0 +1,94 @@
+{
+  "type" : "object",
+  "id" : "urn:jsonschema:com:taskManger:services:JSONService:JSONFormatList",
+  "properties" : {
+    "userList" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "id" : "urn:jsonschema:com:taskManger:entities:User",
+        "properties" : {
+          "uuid" : {
+            "type" : "string"
+          },
+          "username" : {
+            "type" : "string"
+          },
+          "password" : {
+            "type" : "string"
+          },
+          "firstName" : {
+            "type" : "string"
+          },
+          "lastName" : {
+            "type" : "string"
+          },
+          "phone" : {
+            "type" : "string"
+          }
+        }
+      }
+    },
+    "tasksList" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "id" : "urn:jsonschema:com:taskManger:entities:Tasks",
+        "properties" : {
+          "uuid" : {
+            "type" : "string"
+          },
+          "name" : {
+            "type" : "string"
+          },
+          "description" : {
+            "type" : "string"
+          },
+          "alert_time" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "alert_received" : {
+            "type" : "boolean"
+          }
+        }
+      }
+    },
+    "watcherForTasks" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "id" : "urn:jsonschema:com:taskManger:entities:WatcherForTasks",
+        "properties" : {
+          "contactUuid" : {
+            "type" : "string"
+          },
+          "userUuid" : {
+            "type" : "string"
+          }
+        }
+      }
+    },
+    "listOfTasks" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "id" : "urn:jsonschema:com:taskManger:entities:ListOfTasks",
+        "properties" : {
+          "uuid" : {
+            "type" : "string"
+          },
+          "userUuid" : {
+            "type" : "string"
+          },
+          "taskUuid" : {
+            "type" : "string"
+          },
+          "name" : {
+            "type" : "string"
+          }
+        }
+      }
+    }
+  }
+}
