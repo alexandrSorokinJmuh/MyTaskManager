@@ -4,6 +4,7 @@ import com.taskManger.controllers.UserController;
 import com.taskManger.entities.User;
 import com.taskManger.exception.UUIDIsNotUniqueException;
 import com.taskManger.exception.UsernameNotUniqueException;
+import com.taskManger.views.results.AuthorizationViewResult;
 
 import java.io.IOException;
 import java.util.Scanner;
@@ -17,44 +18,36 @@ public class AuthorizationView {
         this.userController = userController;
     }
 
-    public void mainMenu() {
-        programBody:
-        {
+    public AuthorizationViewResult mainMenu() {
+        System.out.println("Choose action to do:");
+        System.out.println("1. Sign in");
+        System.out.println("2. Sign up");
+        System.out.println("3. Exit");
 
-            while (true) {
-                System.out.println("Choose action to do:");
-                System.out.println("1. Sign in");
-                System.out.println("2. Sign up");
-                System.out.println("3. Exit");
+        Scanner in = new Scanner(System.in);
+        System.out.print("Input a number: ");
+        int num = in.nextInt();
 
-                Scanner in = new Scanner(System.in);
-                System.out.print("Input a number: ");
-                int num = in.nextInt();
-
-                if (num >= 1 && num <= mainMenuActionCount) {
-                    switch (num) {
-                        case 1:
-                            signIn();
-                            break programBody;
-                        case 2:
-                            signUp();
-                            break programBody;
-                        case 3:
-                            break programBody;
-                    }
-                } else {
-                    System.out.flush();
-                    System.out.println("\n\nWrong input!!!\n");
-                }
+        if (num >= 1 && num <= mainMenuActionCount) {
+            switch (num) {
+                case 1:
+                    // signIn();
+                    return AuthorizationViewResult.SIGN_IN;
+                case 2:
+                    // signUp();
+                    return AuthorizationViewResult.SING_UP;
+                case 3:
+                    // exit;
+                    return AuthorizationViewResult.EXIT;
             }
-
-
+        } else {
+            System.out.println("\n\nWrong input!!!\n");
+            return AuthorizationViewResult.WRONG_INPUT;
         }
-        System.out.println("Goodbye!!!");
-
+        return AuthorizationViewResult.EXIT;
     }
 
-    public void signIn() {
+    public AuthorizationViewResult signIn() {
         System.out.println("Input account username and password:");
 
 
@@ -68,13 +61,13 @@ public class AuthorizationView {
 
         if (user == null) {
             System.out.println("\n\nWrong username or password\n");
-            mainMenu();
+            return AuthorizationViewResult.WRONG_USERNAME_OR_PASSWORD;
         } else {
-            return;
+            return AuthorizationViewResult.LOGIN_SUCCESS;
         }
     }
 
-    public void signUp() {
+    public AuthorizationViewResult signUp() {
         System.out.println("Input fields:");
 
         Scanner in = new Scanner(System.in);
@@ -98,13 +91,12 @@ public class AuthorizationView {
         User user = null;
         try {
             user = userController.singUp(username, password, firstName, lastName, phone);
-            mainMenu();
-        } catch (UUIDIsNotUniqueException e) {
-            e.printStackTrace();
-        } catch (UsernameNotUniqueException e) {
+            return AuthorizationViewResult.REGISTRATION_SUCCESS;
+        } catch (UUIDIsNotUniqueException | UsernameNotUniqueException e) {
             System.out.println("This username is already exists");
-            mainMenu();
+            return AuthorizationViewResult.USERNAME_IS_EXISTS;
         }
 
     }
+
 }

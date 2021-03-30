@@ -1,11 +1,12 @@
 package com.taskManger.views.results;
 
-public enum AuthorizationResult {
+public enum AuthorizationViewResult {
     WRONG_USERNAME_OR_PASSWORD,
     SIGN_IN,
     SING_UP,
+    WRONG_INPUT,
     USERNAME_IS_EXISTS,
-    OK,
-    AUTHORIZATION_DONE,
+    LOGIN_SUCCESS,
+    REGISTRATION_SUCCESS,
     EXIT
 }
