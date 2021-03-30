@@ -42,12 +42,6 @@ public class AuthorizationView {
                         case 3:
                             break programBody;
                     }
-                    if (num == 1) {
-                        signIn();
-                    } else if (num == 2) {
-                        signUp();
-                    }
-                    break;
                 } else {
                     System.out.flush();
                     System.out.println("\n\nWrong input!!!\n");
