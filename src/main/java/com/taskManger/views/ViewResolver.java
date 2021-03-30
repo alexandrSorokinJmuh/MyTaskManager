@@ -1,16 +1,19 @@
 package com.taskManger.views;
 
 import com.taskManger.views.results.AuthorizationViewResult;
+import com.taskManger.views.results.MainMenuViewResult;
+import com.taskManger.views.results.TaskViewResult;
 
 public class ViewResolver {
     AuthorizationView authorizationView;
     MainMenuView mainMenuView;
+    TaskView taskView;
 
-    public void authorizationResponse(){
-        AuthorizationViewResult result = AuthorizationViewResult.REGISTRATION_SUCCESS;
-        while (result != AuthorizationViewResult.EXIT && result != AuthorizationViewResult.LOGIN_SUCCESS){
+    public void authorizationViewResponse(AuthorizationViewResult result) {
+
+        while (result != AuthorizationViewResult.EXIT && result != AuthorizationViewResult.LOGIN_SUCCESS) {
             result = authorizationView.mainMenu();
-            switch (result){
+            switch (result) {
                 case SIGN_IN:
                     result = authorizationView.signIn();
                     break;
@@ -27,7 +30,9 @@ public class ViewResolver {
                     break;
             }
         }
-        switch (result){
+
+
+        switch (result) {
             case LOGIN_SUCCESS:
                 break;
             case EXIT:
@@ -36,7 +41,48 @@ public class ViewResolver {
         }
     }
 
+    public void mainMenuViewResponse(MainMenuViewResult result) {
+        AuthorizationViewResult authorizationViewResult = null;
+        while (result != MainMenuViewResult.EXIT && result != MainMenuViewResult.LOG_OUT) {
+            result = mainMenuView.mainMenu();
+            switch (result) {
+                case TASKS:
+                    break;
+                case LIST_OF_TASKS:
+                    break;
+                case FIND_TASK:
+                    break;
+                case WRONG_INPUT:
+                    break;
+                case LOG_OUT:
+                    break;
+                case EXIT:
+                    break;
+            }
+        }
+        if(result == MainMenuViewResult.EXIT){
+            authorizationViewResult = AuthorizationViewResult.EXIT;
+        }
+        this.authorizationViewResponse(authorizationViewResult);
+    }
 
+    public void taskViewResponse(TaskViewResult result) {
+        while (result != TaskViewResult.BACK_TO_MAIN_MENU) {
+            result = taskView.mainMenu();
+            switch (result) {
+                case EDIT_TASK:
+                    break;
+                case CREATE_TASK:
+                    break;
+                case DELETE_TASK:
+                    break;
+                case WRONG_INPUT:
+                    break;
+                case BACK_TO_MAIN_MENU:
+                    break;
+            }
+        }
+        this.mainMenuViewResponse(null);
 
-
+    }
 }
