@@ -18,29 +18,45 @@ public class AuthorizationView {
     }
 
     public void mainMenu() {
-        while (true) {
-            System.out.println("Choose action to do:");
-            System.out.println("1. Sign in");
-            System.out.println("2. Sign up");
-            System.out.println("3. Exit");
+        programBody:
+        {
 
-            Scanner in = new Scanner(System.in);
-            System.out.print("Input a number: ");
-            int num = in.nextInt();
+            while (true) {
+                System.out.println("Choose action to do:");
+                System.out.println("1. Sign in");
+                System.out.println("2. Sign up");
+                System.out.println("3. Exit");
 
-            if (num >= 1 && num <= mainMenuActionCount) {
-                if (num == 1) {
-                    signIn();
-                } else if (num == 2) {
-                    signUp();
+                Scanner in = new Scanner(System.in);
+                System.out.print("Input a number: ");
+                int num = in.nextInt();
+
+                if (num >= 1 && num <= mainMenuActionCount) {
+                    switch (num) {
+                        case 1:
+                            signIn();
+                            break programBody;
+                        case 2:
+                            signUp();
+                            break programBody;
+                        case 3:
+                            break programBody;
+                    }
+                    if (num == 1) {
+                        signIn();
+                    } else if (num == 2) {
+                        signUp();
+                    }
+                    break;
+                } else {
+                    System.out.flush();
+                    System.out.println("\n\nWrong input!!!\n");
                 }
-                break;
-            } else {
-                System.out.flush();
-                System.out.println("\n\nWrong input!!!\n");
             }
-        }
 
+
+        }
+        System.out.println("Goodbye!!!");
 
     }
 

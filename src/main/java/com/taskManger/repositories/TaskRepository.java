@@ -18,9 +18,6 @@ public class TaskRepository implements Repository{
         this.dataStorage = dataStorage;
     }
 
-    public void save(Entity entity) {
-
-    }
 
     public List<Tasks> getAll() {
         return this.dataStorage.getTasksList();

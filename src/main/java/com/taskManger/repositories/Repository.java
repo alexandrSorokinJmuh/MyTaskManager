@@ -5,10 +5,10 @@ import com.taskManger.exception.EntityNotFoundException;
 import com.taskManger.exception.UUIDIsNotUniqueException;
 
 import java.util.List;
+import java.util.function.BiFunction;
 import java.util.function.Predicate;
 
 public interface Repository {
-    void save(Entity entity);
     List<? extends Entity> getAll();
     Entity getEntity(String uuid) throws NullPointerException, UUIDIsNotUniqueException, EntityNotFoundException;
     Entity create(Entity entity) throws NullPointerException, UUIDIsNotUniqueException;

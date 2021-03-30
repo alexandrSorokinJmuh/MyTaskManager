@@ -1,9 +1,5 @@
 package com.taskManger;
 
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.module.jsonSchema.JsonSchema;
-import com.fasterxml.jackson.module.jsonSchema.JsonSchemaGenerator;
 import com.taskManger.DataStorage.DataStorage;
 import com.taskManger.controllers.TaskController;
 import com.taskManger.controllers.UserController;
@@ -20,18 +16,15 @@ import com.taskManger.services.JSONService;
 import com.taskManger.services.TaskService;
 import com.taskManger.services.UserService;
 import com.taskManger.views.AuthorizationView;
-import org.bouncycastle.util.encoders.Hex;
 
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.*;
-import java.util.function.Predicate;
 
 public class Main {
-    public static void main(String[] args) {
 
+
+
+    public static void main(String[] args) {
 
         DataStorage dataStorage = DataStorage.getInstance();
         JSONService jsonService = new JSONService(dataStorage);
@@ -42,68 +35,68 @@ public class Main {
         TaskRepository taskRepository = new TaskRepository(dataStorage);
         TaskService taskService = new TaskService(taskRepository);
         TaskController taskController = new TaskController(taskService);
-        try {
-            jsonService.import_json("src/main/resources/auto_created.json");
-        } catch (JsonValidationException e) {
-            e.printStackTrace();
-        }
 
+        TestMethods testMethods = new TestMethods();
+        testMethods.testImport(jsonService);
 
-        System.out.println(dataStorage);
         AuthorizationView authorizationView = new AuthorizationView(userController);
-
         authorizationView.mainMenu();
 
-//        try {
-//            jsonService.import_json("G:\\javaProj\\MyTaskManager\\src\\main\\resources\\auto_created.json");
-//        } catch (JsonValidationException e) {
-//            e.printStackTrace();
-//        }
-/*
-        List<User> userList = new ArrayList<>();
-        try {
-            for (int i = 0; i < 10; i++) {
 
-                userList.add(userController.singUp("alesha" + i, "asd", "as", "sd", "123"));
-
-            }
-        } catch (UUIDIsNotUniqueException e) {
-            e.printStackTrace();
-        } catch (UsernameNotUniqueException e) {
-            e.printStackTrace();
-        }
-
-        List<Tasks> tasksList = new ArrayList<>();
-        try {
-            for (int i = 0; i < 10; i++) {
-                tasksList.add(taskController.createNewTask("task" + i, "", new Date()));
-            }
-        } catch (UUIDIsNotUniqueException e) {
-            e.printStackTrace();
-        }
-
-        List<WatcherForTasks> watcherForTasks = new LinkedList<>();
-        for (int i = 0; i < 10; i++) {
-            watcherForTasks.add(new WatcherForTasks(UUID.randomUUID().toString(), userList.get(i).getUuid()));
-        }
-
-        List<ListOfTasks> listOfTasks = new LinkedList<>();
-        for (int i = 0; i < 10; i++) {
-            listOfTasks.add(new ListOfTasks(UUID.randomUUID().toString(), userList.get(i).getUuid(), tasksList.get(i).getUuid(), "list of task" + i));
-        }
-
-
-
-        try {
-            jsonService.export_json();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        System.out.println(dataStorage);
-*/
-
-//        dataStorage.setUserList(userList);
-//        dataStorage.saveUserList();
-//        System.out.println(String.class.toString());
+        testMethods.testImport(jsonService);
+//        testMethods.testExport(dataStorage, jsonService, userController, taskController);
     }
+    static class TestMethods{
+        public void testImport(JSONService jsonService) {
+            try {
+                jsonService.importJson("G:\\javaProj\\MyTaskManager\\src\\main\\resources\\auto_created.json");
+            } catch (JsonValidationException e) {
+                e.printStackTrace();
+            }
+        }
+
+        public void testExport(DataStorage dataStorage, JSONService jsonService, UserController userController, TaskController taskController) {
+            List<User> userList = new ArrayList<>();
+            try {
+                for (int i = 0; i < 10; i++) {
+
+                    userList.add(userController.singUp("alesha" + i, "asd", "as", "sd", "123"));
+
+                }
+            } catch (UUIDIsNotUniqueException e) {
+                e.printStackTrace();
+            } catch (UsernameNotUniqueException e) {
+                e.printStackTrace();
+            }
+
+            List<Tasks> tasksList = new ArrayList<>();
+            try {
+                for (int i = 0; i < 10; i++) {
+                    tasksList.add(taskController.createNewTask("task" + i, userList.get(i).getUuid(), "", new Date()));
+                }
+            } catch (UUIDIsNotUniqueException e) {
+                e.printStackTrace();
+            }
+
+            List<WatcherForTasks> watcherForTasks = new LinkedList<>();
+            for (int i = 0; i < 10; i++) {
+                watcherForTasks.add(new WatcherForTasks(UUID.randomUUID().toString(), userList.get(i).getUuid()));
+            }
+
+            List<ListOfTasks> listOfTasks = new LinkedList<>();
+            for (int i = 0; i < 10; i++) {
+                listOfTasks.add(new ListOfTasks(UUID.randomUUID().toString(), userList.get(i).getUuid(), userList.get(i).getUuid(), tasksList.get(i).getUuid(), "list of task" + i));
+            }
+            dataStorage.setListOfTasks(listOfTasks);
+            dataStorage.setWatcherForTasksList(watcherForTasks);
+
+
+            try {
+                jsonService.exportJson("src/main/resources/auto_created.json");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
 }

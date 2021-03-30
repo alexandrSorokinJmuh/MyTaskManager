@@ -20,10 +20,6 @@ public class ListOfTasksRepository implements Repository{
     }
 
 
-    public void save(Entity entity) {
-
-    }
-
     public List<ListOfTasks> getAll() {
         return this.dataStorage.getListOfTasks();
     }

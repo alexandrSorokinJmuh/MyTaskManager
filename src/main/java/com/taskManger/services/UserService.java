@@ -31,7 +31,8 @@ public class UserService {
         if (username.isEmpty())
             throw new IllegalArgumentException("Login is empty");
 
-        List<User> userList = userRepository.findBy((Entity user) -> {return ((User)user).getUsername().equals(username);});
+        List<User> userList = userRepository.findBy((Entity user) ->
+                ((User)user).getUsername().equals(username));
 //        if (userList.size() > 1)
 //            throw new UsernameNotUniqueException(String.format("Username %s is not unique", username));
 //        else
@@ -48,7 +49,7 @@ public class UserService {
         }
     }
 
-    public User regNewUser(String username, String password, String firstName, String lastName, String phone) throws UsernameNotUniqueException, UUIDIsNotUniqueException {
+    public User registerNewUser(String username, String password, String firstName, String lastName, String phone) throws UsernameNotUniqueException, UUIDIsNotUniqueException {
 
         if (username == null)
             throw new NullPointerException("Username must be not null");

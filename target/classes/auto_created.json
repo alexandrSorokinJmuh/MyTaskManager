@@ -1,136 +1,280 @@
 {
-  "userList" : [ {
-    "uuid" : "a8df228d-2493-4dfa-9458-44b6a9ddcdba",
-    "username" : "alesha0",
-    "password" : "688787d8ff144c502c7f5cffaafe2cc588d86079f9de88304c26b0cb99ce91c6",
-    "firstName" : "as",
-    "lastName" : "sd",
-    "phone" : "123"
-  }, {
-    "uuid" : "99fc997d-8bb8-4dba-af0f-7d17cf370d9b",
-    "username" : "alesha1",
-    "password" : "688787d8ff144c502c7f5cffaafe2cc588d86079f9de88304c26b0cb99ce91c6",
-    "firstName" : "as",
-    "lastName" : "sd",
-    "phone" : "123"
-  }, {
-    "uuid" : "2c00a874-88ba-45d9-9ee5-060e0582908d",
-    "username" : "alesha2",
-    "password" : "688787d8ff144c502c7f5cffaafe2cc588d86079f9de88304c26b0cb99ce91c6",
-    "firstName" : "as",
-    "lastName" : "sd",
-    "phone" : "123"
-  }, {
-    "uuid" : "2262ee9b-0516-4b73-b92a-dcd38bb13e97",
-    "username" : "alesha3",
-    "password" : "688787d8ff144c502c7f5cffaafe2cc588d86079f9de88304c26b0cb99ce91c6",
-    "firstName" : "as",
-    "lastName" : "sd",
-    "phone" : "123"
-  }, {
-    "uuid" : "4bf78bb5-4d32-4c6f-a630-a89577595163",
-    "username" : "alesha4",
-    "password" : "688787d8ff144c502c7f5cffaafe2cc588d86079f9de88304c26b0cb99ce91c6",
-    "firstName" : "as",
-    "lastName" : "sd",
-    "phone" : "123"
-  }, {
-    "uuid" : "3c66fd92-b512-45fd-b758-c23c353751f7",
-    "username" : "alesha5",
-    "password" : "688787d8ff144c502c7f5cffaafe2cc588d86079f9de88304c26b0cb99ce91c6",
-    "firstName" : "as",
-    "lastName" : "sd",
-    "phone" : "123"
-  }, {
-    "uuid" : "5cf11f5d-ef29-4a84-a385-cd7f7e76fdb3",
-    "username" : "alesha6",
-    "password" : "688787d8ff144c502c7f5cffaafe2cc588d86079f9de88304c26b0cb99ce91c6",
-    "firstName" : "as",
-    "lastName" : "sd",
-    "phone" : "123"
-  }, {
-    "uuid" : "2be3935e-9a73-493a-bed5-8e9d698f4282",
-    "username" : "alesha7",
-    "password" : "688787d8ff144c502c7f5cffaafe2cc588d86079f9de88304c26b0cb99ce91c6",
-    "firstName" : "as",
-    "lastName" : "sd",
-    "phone" : "123"
-  }, {
-    "uuid" : "970be11b-6333-401d-b923-cb88264fb383",
-    "username" : "alesha8",
-    "password" : "688787d8ff144c502c7f5cffaafe2cc588d86079f9de88304c26b0cb99ce91c6",
-    "firstName" : "as",
-    "lastName" : "sd",
-    "phone" : "123"
-  }, {
-    "uuid" : "0573836f-e439-482c-8799-e2505c5a8659",
-    "username" : "alesha9",
-    "password" : "688787d8ff144c502c7f5cffaafe2cc588d86079f9de88304c26b0cb99ce91c6",
-    "firstName" : "as",
-    "lastName" : "sd",
-    "phone" : "123"
-  } ],
-  "tasksList" : [ {
-    "uuid" : "1d2301cb-b09e-4090-829f-3a673b07963e",
-    "name" : "task0",
-    "description" : "",
-    "alert_time" : "2021-03-29T16:56:59+0400",
-    "alert_received" : false
-  }, {
-    "uuid" : "9c8bf44a-d0f8-4da4-b23b-68ebb8223323",
-    "name" : "task1",
-    "description" : "",
-    "alert_time" : "2021-03-29T16:56:59+0400",
-    "alert_received" : false
-  }, {
-    "uuid" : "b60eff43-8a19-49d1-9225-9a3fe035d7ac",
-    "name" : "task2",
-    "description" : "",
-    "alert_time" : "2021-03-29T16:56:59+0400",
-    "alert_received" : false
-  }, {
-    "uuid" : "d3c86013-5c15-4c9f-aae4-a693033e0f57",
-    "name" : "task3",
-    "description" : "",
-    "alert_time" : "2021-03-29T16:56:59+0400",
-    "alert_received" : false
-  }, {
-    "uuid" : "981de119-5081-4ac9-8e8b-2a5d83470927",
-    "name" : "task4",
-    "description" : "",
-    "alert_time" : "2021-03-29T16:56:59+0400",
-    "alert_received" : false
-  }, {
-    "uuid" : "fbc1b249-acde-4081-8125-b2978370f33f",
-    "name" : "task5",
-    "description" : "",
-    "alert_time" : "2021-03-29T16:56:59+0400",
-    "alert_received" : false
-  }, {
-    "uuid" : "61fdb2aa-749f-4d34-9e45-3bca2ff76608",
-    "name" : "task6",
-    "description" : "",
-    "alert_time" : "2021-03-29T16:56:59+0400",
-    "alert_received" : false
-  }, {
-    "uuid" : "45dcc638-8a96-49e7-b5d4-6a14823caedd",
-    "name" : "task7",
-    "description" : "",
-    "alert_time" : "2021-03-29T16:56:59+0400",
-    "alert_received" : false
-  }, {
-    "uuid" : "4a1cc98f-ea9e-4e36-b587-8f8229999ca3",
-    "name" : "task8",
-    "description" : "",
-    "alert_time" : "2021-03-29T16:56:59+0400",
-    "alert_received" : false
-  }, {
-    "uuid" : "e2d3d88a-4df2-44c2-a769-76f6131e2f10",
-    "name" : "task9",
-    "description" : "",
-    "alert_time" : "2021-03-29T16:56:59+0400",
-    "alert_received" : false
-  } ],
-  "watcherForTasks" : [ ],
-  "listOfTasks" : [ ]
+  "userList": [
+    {
+      "uuid": "69ba8fca-f5ed-4665-a0db-7e7704c0164f",
+      "username": "alesha0",
+      "password": "688787d8ff144c502c7f5cffaafe2cc588d86079f9de88304c26b0cb99ce91c6",
+      "firstName": "as",
+      "lastName": "sd",
+      "phone": "123"
+    },
+    {
+      "uuid": "80b8458b-e865-4e2b-b528-59d5775c125d",
+      "username": "alesha1",
+      "password": "688787d8ff144c502c7f5cffaafe2cc588d86079f9de88304c26b0cb99ce91c6",
+      "firstName": "as",
+      "lastName": "sd",
+      "phone": "123"
+    },
+    {
+      "uuid": "40b8facd-930c-437b-a0ad-91b8c2e74147",
+      "username": "alesha2",
+      "password": "688787d8ff144c502c7f5cffaafe2cc588d86079f9de88304c26b0cb99ce91c6",
+      "firstName": "as",
+      "lastName": "sd",
+      "phone": "123"
+    },
+    {
+      "uuid": "fd017a80-9772-4918-b196-a0380c07b45c",
+      "username": "alesha3",
+      "password": "688787d8ff144c502c7f5cffaafe2cc588d86079f9de88304c26b0cb99ce91c6",
+      "firstName": "as",
+      "lastName": "sd",
+      "phone": "123"
+    },
+    {
+      "uuid": "37a6f90b-32cf-417a-96dc-f547e5aadeff",
+      "username": "alesha4",
+      "password": "688787d8ff144c502c7f5cffaafe2cc588d86079f9de88304c26b0cb99ce91c6",
+      "firstName": "as",
+      "lastName": "sd",
+      "phone": "123"
+    },
+    {
+      "uuid": "b88b0fde-8490-486e-a9a4-d83112803ffb",
+      "username": "alesha5",
+      "password": "688787d8ff144c502c7f5cffaafe2cc588d86079f9de88304c26b0cb99ce91c6",
+      "firstName": "as",
+      "lastName": "sd",
+      "phone": "123"
+    },
+    {
+      "uuid": "6dc8bbaf-08b0-4b06-9154-981a55ca2656",
+      "username": "alesha6",
+      "password": "688787d8ff144c502c7f5cffaafe2cc588d86079f9de88304c26b0cb99ce91c6",
+      "firstName": "as",
+      "lastName": "sd",
+      "phone": "123"
+    },
+    {
+      "uuid": "931e853e-3d97-4451-89b9-fb2930b53961",
+      "username": "alesha7",
+      "password": "688787d8ff144c502c7f5cffaafe2cc588d86079f9de88304c26b0cb99ce91c6",
+      "firstName": "as",
+      "lastName": "sd",
+      "phone": "123"
+    },
+    {
+      "uuid": "5c89912c-b223-4bc5-957b-926b9838909c",
+      "username": "alesha8",
+      "password": "688787d8ff144c502c7f5cffaafe2cc588d86079f9de88304c26b0cb99ce91c6",
+      "firstName": "as",
+      "lastName": "sd",
+      "phone": "123"
+    },
+    {
+      "uuid": "009cb087-f242-4b95-949a-8bbcfbcd434d",
+      "username": "alesha9",
+      "password": "688787d8ff144c502c7f5cffaafe2cc588d86079f9de88304c26b0cb99ce91c6",
+      "firstName": "as",
+      "lastName": "sd",
+      "phone": "123"
+    }
+  ],
+  "tasksList": [
+    {
+      "uuid": "bf700f8b-1f25-4b91-adfd-ceaea6eb3d0e",
+      "name": "task0",
+      "creatorUuid": "69ba8fca-f5ed-4665-a0db-7e7704c0164f",
+      "description": "",
+      "alert_time": "2021-03-30T11:13:14+0400",
+      "alert_received": false
+    },
+    {
+      "uuid": "9e56da58-5125-49c0-8a2c-2b6cd11765d8",
+      "name": "task1",
+      "creatorUuid": "80b8458b-e865-4e2b-b528-59d5775c125d",
+      "description": "",
+      "alert_time": "2021-03-30T11:13:14+0400",
+      "alert_received": false
+    },
+    {
+      "uuid": "f6912db5-44c2-46c7-883c-5fe7cee57529",
+      "name": "task2",
+      "creatorUuid": "40b8facd-930c-437b-a0ad-91b8c2e74147",
+      "description": "",
+      "alert_time": "2021-03-30T11:13:14+0400",
+      "alert_received": false
+    },
+    {
+      "uuid": "ff3a97bb-9757-4ecb-aa4a-3b5b54b0e83e",
+      "name": "task3",
+      "creatorUuid": "fd017a80-9772-4918-b196-a0380c07b45c",
+      "description": "",
+      "alert_time": "2021-03-30T11:13:14+0400",
+      "alert_received": false
+    },
+    {
+      "uuid": "40d8a446-6a81-408f-bacc-699fceff2bbe",
+      "name": "task4",
+      "creatorUuid": "37a6f90b-32cf-417a-96dc-f547e5aadeff",
+      "description": "",
+      "alert_time": "2021-03-30T11:13:14+0400",
+      "alert_received": false
+    },
+    {
+      "uuid": "ddd38f8f-0ad2-4445-906f-30126e163ef4",
+      "name": "task5",
+      "creatorUuid": "b88b0fde-8490-486e-a9a4-d83112803ffb",
+      "description": "",
+      "alert_time": "2021-03-30T11:13:14+0400",
+      "alert_received": false
+    },
+    {
+      "uuid": "abdfe41b-30f1-4f70-9f57-c07a496c7cd8",
+      "name": "task6",
+      "creatorUuid": "6dc8bbaf-08b0-4b06-9154-981a55ca2656",
+      "description": "",
+      "alert_time": "2021-03-30T11:13:14+0400",
+      "alert_received": false
+    },
+    {
+      "uuid": "a9245bce-67c2-4c33-94b7-b3481d76a95b",
+      "name": "task7",
+      "creatorUuid": "931e853e-3d97-4451-89b9-fb2930b53961",
+      "description": "",
+      "alert_time": "2021-03-30T11:13:14+0400",
+      "alert_received": false
+    },
+    {
+      "uuid": "5eedbcd3-32b6-4412-aced-2c010f2d44f3",
+      "name": "task8",
+      "creatorUuid": "5c89912c-b223-4bc5-957b-926b9838909c",
+      "description": "",
+      "alert_time": "2021-03-30T11:13:14+0400",
+      "alert_received": false
+    },
+    {
+      "uuid": "63a0a896-3f27-4af2-a42c-36fee1c5cf98",
+      "name": "task9",
+      "creatorUuid": "009cb087-f242-4b95-949a-8bbcfbcd434d",
+      "description": "",
+      "alert_time": "2021-03-30T11:13:14+0400",
+      "alert_received": false
+    }
+  ],
+  "watcherForTasks": [
+    {
+      "contactUuid": "9da32b7b-d15c-4cc6-b521-d156c6b79a87",
+      "userUuid": "69ba8fca-f5ed-4665-a0db-7e7704c0164f"
+    },
+    {
+      "contactUuid": "691e1947-2e2f-4d68-8c1d-ebb6f6c82c8f",
+      "userUuid": "80b8458b-e865-4e2b-b528-59d5775c125d"
+    },
+    {
+      "contactUuid": "3685bdeb-53cf-450a-b22b-1a24e27a6880",
+      "userUuid": "40b8facd-930c-437b-a0ad-91b8c2e74147"
+    },
+    {
+      "contactUuid": "02d2f5fd-2a54-4cb1-840d-60cdc4a8cf5d",
+      "userUuid": "fd017a80-9772-4918-b196-a0380c07b45c"
+    },
+    {
+      "contactUuid": "dc918535-52b1-41b8-8a50-369e45f09e07",
+      "userUuid": "37a6f90b-32cf-417a-96dc-f547e5aadeff"
+    },
+    {
+      "contactUuid": "4522ba39-5df2-4018-9fdf-bd0e48e597a9",
+      "userUuid": "b88b0fde-8490-486e-a9a4-d83112803ffb"
+    },
+    {
+      "contactUuid": "95207bac-f711-47b1-920c-a8435df2151c",
+      "userUuid": "6dc8bbaf-08b0-4b06-9154-981a55ca2656"
+    },
+    {
+      "contactUuid": "09ec4195-0405-412f-a7ef-282f03a4ce86",
+      "userUuid": "931e853e-3d97-4451-89b9-fb2930b53961"
+    },
+    {
+      "contactUuid": "0fd5d1f3-10bb-48be-be6a-dc8d49e77a62",
+      "userUuid": "5c89912c-b223-4bc5-957b-926b9838909c"
+    },
+    {
+      "contactUuid": "6f2ac6f1-84e3-4f0e-b2dd-3e11aaeed278",
+      "userUuid": "009cb087-f242-4b95-949a-8bbcfbcd434d"
+    }
+  ],
+  "listOfTasks": [
+    {
+      "uuid": "88a0fb6a-3507-47d4-81e0-07a44ba0bbda",
+      "creatorUuid": "69ba8fca-f5ed-4665-a0db-7e7704c0164f",
+      "userUuid": "69ba8fca-f5ed-4665-a0db-7e7704c0164f",
+      "taskUuid": "bf700f8b-1f25-4b91-adfd-ceaea6eb3d0e",
+      "name": "list of task0"
+    },
+    {
+      "uuid": "16d62b47-bcd7-4ca3-83a0-ccc8f038875a",
+      "creatorUuid": "80b8458b-e865-4e2b-b528-59d5775c125d",
+      "userUuid": "80b8458b-e865-4e2b-b528-59d5775c125d",
+      "taskUuid": "9e56da58-5125-49c0-8a2c-2b6cd11765d8",
+      "name": "list of task1"
+    },
+    {
+      "uuid": "d0f69ab1-b0c3-48dd-adea-54c6e3f162b2",
+      "creatorUuid": "40b8facd-930c-437b-a0ad-91b8c2e74147",
+      "userUuid": "40b8facd-930c-437b-a0ad-91b8c2e74147",
+      "taskUuid": "f6912db5-44c2-46c7-883c-5fe7cee57529",
+      "name": "list of task2"
+    },
+    {
+      "uuid": "842af8bf-7713-4c50-9cc2-f0ac1c72be2f",
+      "creatorUuid": "fd017a80-9772-4918-b196-a0380c07b45c",
+      "userUuid": "fd017a80-9772-4918-b196-a0380c07b45c",
+      "taskUuid": "ff3a97bb-9757-4ecb-aa4a-3b5b54b0e83e",
+      "name": "list of task3"
+    },
+    {
+      "uuid": "e89bd413-b2e5-407f-a3d5-0ab73fe7411e",
+      "creatorUuid": "37a6f90b-32cf-417a-96dc-f547e5aadeff",
+      "userUuid": "37a6f90b-32cf-417a-96dc-f547e5aadeff",
+      "taskUuid": "40d8a446-6a81-408f-bacc-699fceff2bbe",
+      "name": "list of task4"
+    },
+    {
+      "uuid": "12f48c80-5d00-4822-9bdf-8a17505f688c",
+      "creatorUuid": "b88b0fde-8490-486e-a9a4-d83112803ffb",
+      "userUuid": "b88b0fde-8490-486e-a9a4-d83112803ffb",
+      "taskUuid": "ddd38f8f-0ad2-4445-906f-30126e163ef4",
+      "name": "list of task5"
+    },
+    {
+      "uuid": "2430ae1e-41c1-4753-9969-65f525888136",
+      "creatorUuid": "6dc8bbaf-08b0-4b06-9154-981a55ca2656",
+      "userUuid": "6dc8bbaf-08b0-4b06-9154-981a55ca2656",
+      "taskUuid": "abdfe41b-30f1-4f70-9f57-c07a496c7cd8",
+      "name": "list of task6"
+    },
+    {
+      "uuid": "00501ee5-27ab-4776-98ef-a9a171623fa7",
+      "creatorUuid": "931e853e-3d97-4451-89b9-fb2930b53961",
+      "userUuid": "931e853e-3d97-4451-89b9-fb2930b53961",
+      "taskUuid": "a9245bce-67c2-4c33-94b7-b3481d76a95b",
+      "name": "list of task7"
+    },
+    {
+      "uuid": "bdc75dad-98ba-46b5-86fd-75c52b810d95",
+      "creatorUuid": "5c89912c-b223-4bc5-957b-926b9838909c",
+      "userUuid": "5c89912c-b223-4bc5-957b-926b9838909c",
+      "taskUuid": "5eedbcd3-32b6-4412-aced-2c010f2d44f3",
+      "name": "list of task8"
+    },
+    {
+      "uuid": "4b22bd3d-b846-4b02-92e6-09e8ae63b8d8",
+      "creatorUuid": "009cb087-f242-4b95-949a-8bbcfbcd434d",
+      "userUuid": "009cb087-f242-4b95-949a-8bbcfbcd434d",
+      "taskUuid": "63a0a896-3f27-4af2-a42c-36fee1c5cf98",
+      "name": "list of task9"
+    }
+  ]
 }

@@ -20,17 +20,32 @@ public class WatcherForTasksRepository implements Repository{
         this.dataStorage = dataStorage;
     }
 
-    public void save(Entity entity) {
-
-    }
-
     public List<WatcherForTasks> getAll() {
         return this.dataStorage.getWatcherForTasksList();
     }
 
     public WatcherForTasks getEntity(String uuid) throws NullPointerException, UUIDIsNotUniqueException, EntityNotFoundException {
 
-        throw new EntityNotFoundException(WatcherForTasks.class.toString() + " can't find instance by uuid because you need two uuid to find (task uuid, user uuid)");
+        throw new UnsupportedOperationException(WatcherForTasks.class.toString() + " can't find instance by uuid because you need two uuid to find (task uuid, user uuid)");
+    }
+
+    public List<WatcherForTasks> getEntitiesByContact(String contactUuid) throws NullPointerException, UUIDIsNotUniqueException, EntityNotFoundException {
+        if (contactUuid == null)
+            throw new NullPointerException("contactUUID must be not null");
+
+        List<WatcherForTasks> result = this.findBy((Entity x) -> ((WatcherForTasks)x).getContactUuid().equals(contactUuid));
+
+        return result;
+    }
+
+    public List<WatcherForTasks> getEntitiesByUser(String userUuid) throws NullPointerException, UUIDIsNotUniqueException, EntityNotFoundException {
+        if (userUuid == null)
+            throw new NullPointerException("userUUID must be not null");
+
+        List<WatcherForTasks> result = this.findBy((Entity x) -> ((WatcherForTasks)x).getUserUuid().equals(userUuid));
+
+
+        return result;
     }
 
     public WatcherForTasks getEntity(String contactUuid, String userUuid) throws NullPointerException, UUIDIsNotUniqueException, EntityNotFoundException {
@@ -88,7 +103,7 @@ public class WatcherForTasksRepository implements Repository{
     }
 
     public void delete(String uuid) throws NullPointerException, UUIDIsNotUniqueException, EntityNotFoundException{
-        throw new EntityNotFoundException(WatcherForTasks.class.toString() +
+        throw new UnsupportedOperationException(WatcherForTasks.class.toString() +
                 " can't delete instance by uuid because you need two uuid to find (task uuid, user uuid)");
     }
 
@@ -100,6 +115,20 @@ public class WatcherForTasksRepository implements Repository{
         dataStorage.setWatcherForTasksList(changedList);
     }
 
+    public void deleteByContact(String contactUuid) throws NullPointerException, UUIDIsNotUniqueException, EntityNotFoundException{
+
+        List<WatcherForTasks> toDelete = this.getEntitiesByContact(contactUuid);
+        List<WatcherForTasks> changedList = dataStorage.getWatcherForTasksList();
+        changedList.removeAll(toDelete);
+        dataStorage.setWatcherForTasksList(changedList);
+    }
+    public void deleteByUser(String userUuid) throws NullPointerException, UUIDIsNotUniqueException, EntityNotFoundException{
+
+        List<WatcherForTasks> toDelete = this.getEntitiesByUser(userUuid);
+        List<WatcherForTasks> changedList = dataStorage.getWatcherForTasksList();
+        changedList.removeAll(toDelete);
+        dataStorage.setWatcherForTasksList(changedList);
+    }
     @Override
     public List<WatcherForTasks> findBy(Predicate<Entity> condition) throws NullPointerException{
         if (condition == null)

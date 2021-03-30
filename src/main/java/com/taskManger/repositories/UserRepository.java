@@ -19,10 +19,6 @@ public class UserRepository implements Repository{
         this.dataStorage = dataStorage;
     }
 
-    public void save(Entity entity) {
-
-    }
-
     public List<User> getAll() {
         return this.dataStorage.getUserList();
     }
@@ -30,9 +26,10 @@ public class UserRepository implements Repository{
     public User getEntity(String uuid)  throws NullPointerException, UUIDIsNotUniqueException, EntityNotFoundException {
         if (uuid == null)
             throw new NullPointerException("UUID must be not null");
-        List<User> result = this.findBy((Entity x) -> {
-            return ((User)x).getUuid().equals(uuid);
-        });
+
+        List<User> result = this.findBy((Entity x) ->
+                ((User)x).getUuid().equals(uuid));
+
         if(result.size() == 0){
             throw new EntityNotFoundException(String.format("Entity with UUID %s not found", uuid));
         }

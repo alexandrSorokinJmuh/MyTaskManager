@@ -1,13 +1,13 @@
 package com.taskManger.services;
 
-import com.fasterxml.jackson.core.util.DefaultPrettyPrinter;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectWriter;
 import com.github.fge.jsonschema.core.exceptions.ProcessingException;
 import com.github.fge.jsonschema.core.report.ProcessingReport;
+import com.github.fge.jsonschema.main.JsonSchema;
 import com.github.fge.jsonschema.main.JsonSchemaFactory;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.taskManger.DataStorage.DataStorage;
 import com.taskManger.entities.ListOfTasks;
 import com.taskManger.entities.Tasks;
@@ -33,25 +33,14 @@ public class JSONService {
     private final DataStorage dataStorage;
 
     @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
     @ToString
     class JSONFormatList{
         List<User> userList;
         List<Tasks> tasksList;
         List<WatcherForTasks> watcherForTasks;
         List<ListOfTasks> listOfTasks;
-
-//        void importFromDataStorage(){
-//            this.userList = dataStorage.getUserList();
-//            this.tasksList = dataStorage.getTasksList();
-//            this.listOfTasks = dataStorage.getListOfTasks();
-//            this.watcherForTasks = dataStorage.getWatcherForTasksList();
-//        }
-//        void exportToDataStorage(){
-//            dataStorage.setUserList(this.userList);
-//            dataStorage.setTasksList(this.tasksList);
-//            dataStorage.setListOfTasks(this.listOfTasks);
-//            dataStorage.setWatcherForTasksList(this.watcherForTasks);
-//        }
     }
 
 
@@ -95,7 +84,7 @@ public class JSONService {
     }
 
 
-    public boolean import_json(String filePath) throws NullPointerException, JsonValidationException {
+    public void importJson(String filePath) throws NullPointerException, JsonValidationException {
         setFilePath(filePath);
         jsonFile = new File(filePath);
 
@@ -106,13 +95,12 @@ public class JSONService {
 
             JsonNode jsonNode = mapper.readTree(jsonSchema);
 
-            com.github.fge.jsonschema.main.JsonSchema jsonSchema =
+            JsonSchema jsonSchema =
                     jsonSchemaFactory.getJsonSchema(jsonNode);
 
 
             ProcessingReport report = jsonSchema.validate(mapper.readTree(jsonFile));
 
-//                System.out.println(writer.writeValueAsString(schema));
             if (report.isSuccess()){
                 System.out.println("horosho");
 
@@ -122,13 +110,9 @@ public class JSONService {
                     JSONFormatList jsonFormatList = gson.fromJson(reader, JSONFormatList.class);
                     System.out.println(jsonFormatList);
                     this.exportToDataStorage(jsonFormatList);
-//                    jsonFormatList.exportToDataStorage();
                 }catch (Exception e){
                     e.printStackTrace();
                 }
-
-//                JSONFormatList jsonFormatList = mapper.readValue(jsonFile, JSONFormatList.class);
-//                jsonFormatList.exportToDataStorage();
 
             }else{
                 StringBuffer stringBuffer = new StringBuffer("");
@@ -147,52 +131,33 @@ public class JSONService {
             e.printStackTrace();
         }
 
-        return true;
     }
 
-    public boolean export_json() throws IOException{
+    public void exportJson() throws IOException{
         this.createJsonFile(jsonFile);
         if(jsonFile.canWrite()){
-            ObjectMapper mapper = new ObjectMapper();
-            ObjectWriter writer = mapper.writer(new DefaultPrettyPrinter());
-
-            // Java objects to JSON file
+            Gson gson = new GsonBuilder()
+                    .setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ")
+                    .setPrettyPrinting()
+                    .create();
             JSONFormatList jsonFormatList = new JSONFormatList();
-//            jsonFormatList.importFromDataStorage();
             importFromDataStorage(jsonFormatList);
-            writer.writeValue(jsonFile, jsonFormatList);
-
+            try(FileWriter writer = new FileWriter(jsonFile)){
+                gson.toJson(jsonFormatList, writer);
+//                    jsonFormatList.exportToDataStorage();
+            }catch (Exception e){
+                e.printStackTrace();
+            }
         }
 
-        return true;
     }
 
-    public boolean export_json(String newFilePath) throws IOException {
+    public void exportJson(String newFilePath) throws IOException {
         if (newFilePath != null)
             jsonFile = new File(newFilePath);
-        this.export_json();
-        return true;
+        this.exportJson();
     }
 
-    public void save() {
-//        if(userJson.canWrite()){
-//            ObjectMapper mapper = new ObjectMapper();
-//
-//            try {
-//
-//                // Java objects to JSON file
-//                mapper.writeValue(userJson, userList);
-//
-//                // Java objects to JSON string - pretty-print
-//                String jsonInString2 = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(userList);
-//
-//                System.out.println(jsonInString2);
-//
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//
-//        }
-    }
+
 
 }

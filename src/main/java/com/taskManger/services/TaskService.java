@@ -27,7 +27,7 @@ public class TaskService {
     Boolean alert_received = false;
 * */
 
-    public Tasks regNewTask(String name, String description, Date alert_time) throws UUIDIsNotUniqueException {
+    public Tasks registerNewTask(String name, String creatorUuid, String description, Date alertTime) throws UUIDIsNotUniqueException {
 
         if (name == null)
             throw new NullPointerException("Task name must be not null");
@@ -35,11 +35,11 @@ public class TaskService {
         if (description == null)
             description = "";
 
-        if (alert_time == null)
+        if (alertTime == null)
             throw new NullPointerException("Alert time must be not null");
 
         String taskUuid = UUID.randomUUID().toString();
-        Tasks task = new Tasks(taskUuid, name, description, alert_time, false);
+        Tasks task = new Tasks(taskUuid, name, creatorUuid, description, alertTime, false);
 
         taskRepository.create(task);
 
