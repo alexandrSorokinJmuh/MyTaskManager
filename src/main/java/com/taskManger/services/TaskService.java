@@ -73,6 +73,11 @@ public class TaskService {
         taskRepository.delete(taskUuid);
     }
 
+    public Tasks firstTask(@NonNull User user){
+        String taskUuid = UUID.randomUUID().toString();
+        return new Tasks(taskUuid, "Create list of task", user.getUuid(), String.format("create list of task by user: %s (default)", user.getUsername()), new Date(), true);
+    }
+
     public List<Tasks> getAllTaskByUser(User user) {
         return taskRepository.getTasksByCreator(user.getUuid());
     }

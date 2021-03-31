@@ -43,4 +43,5 @@ public class TaskController {
     public void deleteTask(@NonNull Tasks tasks) throws UUIDIsNotUniqueException, EntityNotFoundException {
         taskService.deleteTask(tasks.getUuid());
     }
+
 }

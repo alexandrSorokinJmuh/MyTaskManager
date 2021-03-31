@@ -29,4 +29,6 @@ public class Tasks extends Entity {
         this.alert_time = alert_time;
         this.alert_received = alert_received;
     }
+
+
 }
