@@ -5,6 +5,7 @@ import com.taskManger.entities.Entity;
 import com.taskManger.entities.ListOfTasks;
 import com.taskManger.exception.EntityNotFoundException;
 import com.taskManger.exception.UUIDIsNotUniqueException;
+import lombok.NonNull;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -39,6 +40,13 @@ public class ListOfTasksRepository implements Repository{
         return result.get(0);
     }
 
+    public List<ListOfTasks> getEntitiesByName(@NonNull String name) throws NullPointerException {
+
+        List<ListOfTasks> result = this.findBy((Entity x) -> ((ListOfTasks)x).getName().equals(name));
+
+        return result;
+    }
+
     public ListOfTasks create(Entity entity) throws NullPointerException, UUIDIsNotUniqueException, IllegalArgumentException{
         if(entity == null)
             throw new NullPointerException("Entity must be not null");
@@ -59,7 +67,7 @@ public class ListOfTasksRepository implements Repository{
         return listOfTasksEntity;
     }
 
-    public ListOfTasks update(Entity entity) throws NullPointerException, EntityNotFoundException {
+    public ListOfTasks update(Entity entity) throws NullPointerException, EntityNotFoundException, UUIDIsNotUniqueException {
         if(entity == null)
             throw new NullPointerException("Entity must be not null");
 
@@ -67,10 +75,13 @@ public class ListOfTasksRepository implements Repository{
             throw new IllegalArgumentException("Entity should be instance of class " + ListOfTasks.class.toString());
 
         List<ListOfTasks> changedList = dataStorage.getListOfTasks();
-        int index = changedList.indexOf(entity);
+        String uuid = ((ListOfTasks) entity).getUuid();
+        ListOfTasks listOfTasksEntity = this.getEntity(uuid);
+        int index = changedList.indexOf(listOfTasksEntity);
         if(index == -1)
             throw new EntityNotFoundException("Entity not found");
-
+        else
+            changedList.set(index, (ListOfTasks) entity);
         dataStorage.setListOfTasks(changedList);
         return (ListOfTasks) entity;
     }
