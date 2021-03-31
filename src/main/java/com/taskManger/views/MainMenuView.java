@@ -14,6 +14,10 @@ public class MainMenuView {
     private TaskController taskController;
     private User user;
 
+    public void setUser(User user) {
+        this.user = user;
+    }
+
     public MainMenuView(UserController userController, TaskController taskController, User user) {
         this.userController = userController;
         this.taskController = taskController;
@@ -21,7 +25,7 @@ public class MainMenuView {
     }
 
     public MainMenuViewResult mainMenu() {
-        System.out.println("Choose action to do:");
+        System.out.println("\n\nChoose action to do:");
         System.out.println("1. Tasks");
         System.out.println("2. List of tasks");
         System.out.println("3. Find task");

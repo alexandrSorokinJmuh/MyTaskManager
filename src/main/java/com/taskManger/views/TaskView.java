@@ -17,11 +17,22 @@ import java.util.Scanner;
 
 public class TaskView {
     private final int mainMenuActionCount = 4;
-    private final int editViewActionCount = 4;
+    private final int editViewActionCount = 5;
     private UserController userController;
     private TaskController taskController;
     private User user;
     private Tasks currentTask;
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public TaskView(UserController userController, TaskController taskController, User user, Tasks currentTask) {
+        this.userController = userController;
+        this.taskController = taskController;
+        this.user = user;
+        this.currentTask = currentTask;
+    }
 
     public TaskView(UserController userController, TaskController taskController, User user) {
         this.userController = userController;
@@ -30,7 +41,7 @@ public class TaskView {
     }
 
     public TaskViewResult mainMenu() {
-        System.out.println("Choose action to do:");
+        System.out.println("\n\nChoose action to do:");
         System.out.println("1. Edit task");
         System.out.println("2. Create task");
         System.out.println("3. Delete task");
@@ -62,12 +73,16 @@ public class TaskView {
         return TaskViewResult.BACK_TO_MAIN_MENU;
     }
 
-    public TaskViewResult editTask(){
-        List<Tasks> tasksList = taskController.getAllTaskByUser(user);
-        System.out.println("Choose task to edit");
+    public void showTaskList(List<Tasks> tasksList){
         for (int i = 0; i < tasksList.size(); i++){
             System.out.println(String.format("%d: Task - %s", i+1, tasksList.get(i).getName()));
         }
+    }
+
+    public TaskViewResult editTask(){
+        List<Tasks> tasksList = taskController.getAllTaskByUser(user);
+        System.out.println("\n\nChoose task index to edit");
+        showTaskList(tasksList);
         Scanner in = new Scanner(System.in);
         System.out.print("Input a number: ");
         int num = in.nextInt();
@@ -79,6 +94,7 @@ public class TaskView {
             System.out.println("2. Edit task description");
             System.out.println("3. Edit task alert time");
             System.out.println("4. Back to task actions");
+            System.out.println("5. Back to main menu");
             System.out.print("Input a number: ");
 
             num = in.nextInt();
@@ -93,6 +109,9 @@ public class TaskView {
                     case 4:
                         currentTask = null;
                         return TaskViewResult.BACK_TO_TASK_VIEW;
+                    case 5:
+                        currentTask = null;
+                        return TaskViewResult.BACK_TO_MAIN_MENU;
                 }
             }else {
                 System.out.println("\n\nWrong input!!!\n");
@@ -110,7 +129,7 @@ public class TaskView {
     public TaskViewResult editTaskName(){
         Scanner sc = new Scanner(System.in);
         System.out.println("Input new task name: ");
-        String nameNew = sc.next();
+        String nameNew = sc.nextLine();
         try {
             taskController.changeName(currentTask, nameNew);
         } catch (UUIDIsNotUniqueException | EntityNotFoundException e) {
@@ -124,7 +143,7 @@ public class TaskView {
     public TaskViewResult editTaskDescription(){
         Scanner sc = new Scanner(System.in);
         System.out.println("Input new task description: ");
-        String descriptionNew = sc.next();
+        String descriptionNew = sc.nextLine();
         try {
             taskController.changeAlertTime(currentTask, descriptionNew);
         } catch (UUIDIsNotUniqueException | EntityNotFoundException e) {
@@ -136,8 +155,8 @@ public class TaskView {
 
     public TaskViewResult editTaskAlertTime(){
         Scanner sc = new Scanner(System.in);
-        System.out.println("Input new task description: ");
-        String date = sc.next();
+        System.out.println("Input new task alert time: ");
+        String date = sc.nextLine();
         try {
             DateFormat dateFormat = new SimpleDateFormat("dd/mm/yyyy");
             Date dateNew = dateFormat.parse(date);
@@ -150,5 +169,53 @@ public class TaskView {
             return TaskViewResult.WRONG_INPUT;
         }
         return TaskViewResult.EDIT_SUCCESS;
+    }
+
+    public TaskViewResult createTask(){
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Input new task name: ");
+        String nameNew = sc.nextLine();
+
+        System.out.println("Input new task description: ");
+        String descriptionNew = sc.nextLine();
+
+        System.out.println("Input new task alert time: ");
+        String date = sc.nextLine();
+        Date dateNew;
+        try {
+            DateFormat dateFormat = new SimpleDateFormat("dd/mm/yyyy");
+            dateNew = dateFormat.parse(date);
+        }catch (ParseException e) {
+            System.out.println("\n\nWrong date format\n");
+            return TaskViewResult.WRONG_INPUT;
+        }
+        try {
+            taskController.createNewTask(nameNew, user.getUuid(), descriptionNew, dateNew);
+        } catch (UUIDIsNotUniqueException e) {
+            e.printStackTrace();
+            return TaskViewResult.BACK_TO_MAIN_MENU;
+        }
+        return TaskViewResult.CREATE_SUCCESS;
+    }
+
+    public TaskViewResult deleteTask(){
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Input task index to delete: ");
+        List<Tasks> tasksList = taskController.getAllTaskByUser(user);
+        showTaskList(tasksList);
+        System.out.print("Input a number: ");
+        int num = sc.nextInt();
+        if (num >= 1 && num <= tasksList.size()) {
+            try {
+                taskController.deleteTask(tasksList.get(num - 1));
+            } catch (UUIDIsNotUniqueException | EntityNotFoundException e) {
+                e.printStackTrace();
+                return TaskViewResult.BACK_TO_MAIN_MENU;
+            }
+        }else{
+            System.out.println("\n\nWrong number of task!!!\n");
+            return TaskViewResult.WRONG_NUMBER_OF_TASK;
+        }
+        return TaskViewResult.DELETE_SUCCESS;
     }
 }

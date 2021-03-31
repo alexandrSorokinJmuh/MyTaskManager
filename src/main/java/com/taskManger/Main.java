@@ -17,6 +17,9 @@ import com.taskManger.services.JSONService;
 import com.taskManger.services.TaskService;
 import com.taskManger.services.UserService;
 import com.taskManger.views.AuthorizationView;
+import com.taskManger.views.MainMenuView;
+import com.taskManger.views.TaskView;
+import com.taskManger.views.ViewResolver;
 
 import java.io.IOException;
 import java.util.*;
@@ -43,10 +46,12 @@ public class Main {
         testMethods.testImport(jsonService);
 
         AuthorizationView authorizationView = new AuthorizationView(userController);
-        authorizationView.mainMenu();
+        MainMenuView mainMenuView = new MainMenuView(userController, taskController, null);
+        TaskView taskView = new TaskView(userController, taskController, null ,null);
+        ViewResolver viewResolver = new ViewResolver(authorizationView, mainMenuView, taskView);
 
-
-        testMethods.testImport(jsonService);
+        viewResolver.authorizationViewResponse(null);
+//        testMethods.testImport(jsonService);
 //        testMethods.testExport(dataStorage, jsonService, userController, taskController);
     }
     static class TestMethods{

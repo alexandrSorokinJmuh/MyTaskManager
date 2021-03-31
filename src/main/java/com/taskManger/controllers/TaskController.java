@@ -39,4 +39,8 @@ public class TaskController {
     public void changeAlertTime(@NonNull Tasks tasks, @NonNull Date alertTime) throws UUIDIsNotUniqueException, EntityNotFoundException {
         taskService.changeAlertTime(tasks.getUuid(), alertTime);
     }
+
+    public void deleteTask(@NonNull Tasks tasks) throws UUIDIsNotUniqueException, EntityNotFoundException {
+        taskService.deleteTask(tasks.getUuid());
+    }
 }

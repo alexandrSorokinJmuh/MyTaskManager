@@ -13,6 +13,11 @@ public class AuthorizationView {
 
     private final int mainMenuActionCount = 3;
     private UserController userController;
+    private User user;
+
+    public User getUser() {
+        return user;
+    }
 
     public AuthorizationView(UserController userController) {
         this.userController = userController;
@@ -63,6 +68,7 @@ public class AuthorizationView {
             System.out.println("\n\nWrong username or password\n");
             return AuthorizationViewResult.WRONG_USERNAME_OR_PASSWORD;
         } else {
+            this.user = user;
             return AuthorizationViewResult.LOGIN_SUCCESS;
         }
     }

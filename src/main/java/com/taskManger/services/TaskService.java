@@ -69,6 +69,10 @@ public class TaskService {
         return task;
     }
 
+    public void deleteTask(@NonNull String taskUuid) throws UUIDIsNotUniqueException, EntityNotFoundException {
+        taskRepository.delete(taskUuid);
+    }
+
     public List<Tasks> getAllTaskByUser(User user) {
         return taskRepository.getTasksByCreator(user.getUuid());
     }
