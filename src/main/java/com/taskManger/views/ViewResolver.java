@@ -85,4 +85,40 @@ public class ViewResolver {
         this.mainMenuViewResponse(null);
 
     }
+
+    public void editTaskViewResponse(TaskViewResult result){
+        while (result != TaskViewResult.BACK_TO_MAIN_MENU) {
+            result = taskView.editTask();
+            switch (result) {
+                case EDIT_NAME:
+                    this.editNameViewResponse();
+                case EDIT_DESCRIPTION:
+//                    result = taskView.editTaskDescription();
+                case EDIT_ALERT_TIME:
+//                    result = taskView.editTaskAlertTime();
+                case WRONG_INPUT:
+                    break;
+                case BACK_TO_MAIN_MENU:
+                    break;
+            }
+        }
+        this.mainMenuViewResponse(null);
+    }
+
+    private void editNameViewResponse(){
+        TaskViewResult result = null;
+        while (result != TaskViewResult.BACK_TO_MAIN_MENU && result != TaskViewResult.EDIT_SUCCESS) {
+            result = taskView.editTaskName();
+            switch (result) {
+                case WRONG_INPUT:
+                    break;
+                case BACK_TO_MAIN_MENU:
+                    break;
+                case EDIT_SUCCESS:
+                    break;
+            }
+        }
+
+        this.mainMenuViewResponse(null);
+    }
 }

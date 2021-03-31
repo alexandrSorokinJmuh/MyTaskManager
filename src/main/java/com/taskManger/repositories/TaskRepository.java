@@ -6,6 +6,7 @@ import com.taskManger.entities.ListOfTasks;
 import com.taskManger.entities.Tasks;
 import com.taskManger.exception.EntityNotFoundException;
 import com.taskManger.exception.UUIDIsNotUniqueException;
+import lombok.NonNull;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -58,7 +59,7 @@ public class TaskRepository implements Repository{
         return tasksEntity;
     }
 
-    public Tasks update(Entity entity) throws NullPointerException, EntityNotFoundException {
+    public Tasks update(Entity entity) throws NullPointerException, EntityNotFoundException, UUIDIsNotUniqueException {
         if(entity == null)
             throw new NullPointerException("Entity must be not null");
 
@@ -66,10 +67,13 @@ public class TaskRepository implements Repository{
             throw new IllegalArgumentException("Entity should be instance of class " + Tasks.class.toString());
 
         List<Tasks> changedList = dataStorage.getTasksList();
-        int index = changedList.indexOf(entity);
+        String uuid = ((Tasks) entity).getUuid();
+        Tasks tasksEntity = this.getEntity(uuid);
+        int index = changedList.indexOf(tasksEntity);
         if(index == -1)
             throw new EntityNotFoundException("Entity not found");
-
+        else
+            changedList.set(index, (Tasks) entity);
         dataStorage.setTasksList(changedList);
         return (Tasks) entity;
     }
@@ -95,5 +99,10 @@ public class TaskRepository implements Repository{
         return resultList;
     }
 
+
+    public List<Tasks> getTasksByCreator(@NonNull String creatorUuid) {
+        List<Tasks> tasksList = this.findBy((Entity task) -> ((Tasks)task).getCreatorUuid().equals(creatorUuid));
+        return tasksList;
+    }
 
 }

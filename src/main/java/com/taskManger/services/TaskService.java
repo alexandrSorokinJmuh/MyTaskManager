@@ -1,31 +1,27 @@
 package com.taskManger.services;
 
+import com.taskManger.entities.ListOfTasks;
 import com.taskManger.entities.Tasks;
+import com.taskManger.entities.User;
+import com.taskManger.exception.EntityNotFoundException;
 import com.taskManger.exception.UUIDIsNotUniqueException;
 import com.taskManger.repositories.TaskRepository;
+import com.taskManger.repositories.WatcherForTasksRepository;
+import lombok.NonNull;
 
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 public class TaskService {
 
     TaskRepository taskRepository;
+    WatcherForTasksRepository watcherForTasksRepository;
 
-    public TaskService(TaskRepository taskRepository) {
+    public TaskService(TaskRepository taskRepository, WatcherForTasksRepository watcherForTasksRepository) {
         this.taskRepository = taskRepository;
+        this.watcherForTasksRepository = watcherForTasksRepository;
     }
-/*
-*
-* @NonNull
-    String uuid;
-    @NonNull
-    String name;
-
-    String description = "";
-    @JsonSerialize(using= DateSerializer.class)
-    Date alert_time = new Date();
-    Boolean alert_received = false;
-* */
 
     public Tasks registerNewTask(String name, String creatorUuid, String description, Date alertTime) throws UUIDIsNotUniqueException {
 
@@ -46,4 +42,34 @@ public class TaskService {
         return task;
     }
 
+    public Tasks changeAlertTime(@NonNull String taskUuid, @NonNull Date alertTime) throws UUIDIsNotUniqueException, EntityNotFoundException {
+
+        Tasks task = taskRepository.getEntity(taskUuid);
+        task.setAlert_time(alertTime);
+        taskRepository.update(task);
+
+        return task;
+    }
+
+    public Tasks changeName(@NonNull String taskUuid, @NonNull String name) throws UUIDIsNotUniqueException, EntityNotFoundException {
+
+        Tasks task = taskRepository.getEntity(taskUuid);
+        task.setName(name);
+        taskRepository.update(task);
+
+        return task;
+    }
+
+    public Tasks changeDescription(@NonNull String taskUuid, @NonNull String description) throws UUIDIsNotUniqueException, EntityNotFoundException {
+
+        Tasks task = taskRepository.getEntity(taskUuid);
+        task.setDescription(description);
+        taskRepository.update(task);
+
+        return task;
+    }
+
+    public List<Tasks> getAllTaskByUser(User user) {
+        return taskRepository.getTasksByCreator(user.getUuid());
+    }
 }

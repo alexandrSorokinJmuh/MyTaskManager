@@ -87,19 +87,7 @@ public class WatcherForTasksRepository implements Repository{
     }
 
     public WatcherForTasks update(Entity entity)throws NullPointerException, EntityNotFoundException {
-        if(entity == null)
-            throw new NullPointerException("Entity must be not null");
-
-        if(entity.getClass() != WatcherForTasks.class)
-            throw new IllegalArgumentException("Entity should be instance of class " + WatcherForTasks.class.toString());
-
-        List<WatcherForTasks> changedList = dataStorage.getWatcherForTasksList();
-        int index = changedList.indexOf(entity);
-        if(index == -1)
-            throw new EntityNotFoundException("Entity not found");
-
-        dataStorage.setWatcherForTasksList(changedList);
-        return (WatcherForTasks) entity;
+        throw new UnsupportedOperationException("WatcherForTasks have not method update");
     }
 
     public void delete(String uuid) throws NullPointerException, UUIDIsNotUniqueException, EntityNotFoundException{

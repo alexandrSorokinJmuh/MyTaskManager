@@ -12,6 +12,7 @@ import com.taskManger.exception.UUIDIsNotUniqueException;
 import com.taskManger.exception.UsernameNotUniqueException;
 import com.taskManger.repositories.TaskRepository;
 import com.taskManger.repositories.UserRepository;
+import com.taskManger.repositories.WatcherForTasksRepository;
 import com.taskManger.services.JSONService;
 import com.taskManger.services.TaskService;
 import com.taskManger.services.UserService;
@@ -32,8 +33,10 @@ public class Main {
         UserService userService = new UserService(userRepository);
         UserController userController = new UserController(userService);
 
+        WatcherForTasksRepository watcherForTasksRepository = new WatcherForTasksRepository(dataStorage);
+
         TaskRepository taskRepository = new TaskRepository(dataStorage);
-        TaskService taskService = new TaskService(taskRepository);
+        TaskService taskService = new TaskService(taskRepository, watcherForTasksRepository);
         TaskController taskController = new TaskController(taskService);
 
         TestMethods testMethods = new TestMethods();

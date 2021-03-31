@@ -3,6 +3,7 @@ package com.taskManger.repositories;
 import com.taskManger.DataStorage.DataStorage;
 import com.taskManger.entities.Entity;
 import com.taskManger.entities.ListOfTasks;
+import com.taskManger.entities.Tasks;
 import com.taskManger.entities.User;
 import com.taskManger.exception.EntityNotFoundException;
 import com.taskManger.exception.UUIDIsNotUniqueException;
@@ -59,7 +60,7 @@ public class UserRepository implements Repository{
         return (User) entity;
     }
 
-    public User update(Entity entity) throws NullPointerException, EntityNotFoundException  {
+    public User update(Entity entity) throws NullPointerException, EntityNotFoundException, UUIDIsNotUniqueException {
         if(entity == null)
             throw new NullPointerException("Entity must be not null");
 
@@ -67,10 +68,13 @@ public class UserRepository implements Repository{
             throw new IllegalArgumentException("Entity should be instance of class " + User.class.toString());
 
         List<User> changedList = dataStorage.getUserList();
-        int index = changedList.indexOf(entity);
+        String uuid = ((User) entity).getUuid();
+        User userEntity = this.getEntity(uuid);
+        int index = changedList.indexOf(userEntity);
         if(index == -1)
             throw new EntityNotFoundException("Entity not found");
-
+        else
+            changedList.set(index, (User) entity);
         dataStorage.setUserList(changedList);
         return (User) entity;
     }
