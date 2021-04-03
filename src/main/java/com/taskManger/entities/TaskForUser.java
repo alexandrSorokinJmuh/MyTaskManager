@@ -1,18 +1,25 @@
 package com.taskManger.entities;
 
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NonNull;
 
 @Data
 @AllArgsConstructor
-public class ListOfTasks extends Entity {
+public class TaskForUser extends Entity{
     @NonNull
     String uuid;
+
     @NonNull
-    String creatorUuid;
+    String listUuid;
+
+    @NonNull
+    String userUuid;
+
+    @NonNull
+    String taskUuid;
 
     @NonNull
     String name;
+
 }

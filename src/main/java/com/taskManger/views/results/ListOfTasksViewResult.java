@@ -1,0 +1,36 @@
+package com.taskManger.views.results;
+
+public enum ListOfTasksViewResult {
+    WRONG_INPUT,
+    WRONG_INDEX,
+
+    SHOW_LISTS,
+
+    EDIT_LIST,
+    EDIT_LIST_NAME,
+    ADD_TASK,
+    EDIT_TASK_FOR_USER,
+
+    CREATE_LIST,
+    DELETE_LIST,
+
+    EDIT_TASK_FOR_USER_NAME,
+    ADD_USER_TO_TASK,
+    ADD_SUCCESS,
+
+    CHANGE_USER_FOR_TASK,
+
+    DELETE_TASK_FOR_USER,
+    DELETE_TASK,
+    DELETE_ONLY_TASK,
+
+    EDIT_SUCCESS,
+
+
+
+    CREATE_SUCCESS,
+
+    DELETE_SUCCESS,
+    BACK_TO_LIST_VIEW,
+    BACK_TO_MAIN_MENU
+}

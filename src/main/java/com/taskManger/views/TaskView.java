@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public class TaskView {
-    private final int mainMenuActionCount = 4;
+    private final int mainMenuActionCount = 5;
     private final int editViewActionCount = 5;
     private UserController userController;
     private TaskController taskController;
@@ -42,10 +42,11 @@ public class TaskView {
 
     public TaskViewResult mainMenu() {
         System.out.println("\n\nChoose action to do:");
-        System.out.println("1. Edit task");
-        System.out.println("2. Create task");
-        System.out.println("3. Delete task");
-        System.out.println("4. Exit");
+        System.out.println("1. Show tasks");
+        System.out.println("2. Edit task");
+        System.out.println("3. Create task");
+        System.out.println("4. Delete task");
+        System.out.println("5. Exit");
 
         Scanner in = new Scanner(System.in);
         System.out.print("Input a number: ");
@@ -54,15 +55,18 @@ public class TaskView {
         if (num >= 1 && num <= mainMenuActionCount) {
             switch (num) {
                 case 1:
+                    // Show tasks
+                    return TaskViewResult.SHOW_TASKS;
+                case 2:
                     // EDIT_TASK
                     return TaskViewResult.EDIT_TASK;
-                case 2:
+                case 3:
                     // CREATE_TASK
                     return TaskViewResult.CREATE_TASK;
-                case 3:
+                case 4:
                     // DELETE_TASK
                     return TaskViewResult.DELETE_TASK;
-                case 4:
+                case 5:
                     // Exit
                     return TaskViewResult.BACK_TO_MAIN_MENU;
             }
@@ -73,10 +77,15 @@ public class TaskView {
         return TaskViewResult.BACK_TO_MAIN_MENU;
     }
 
-    public void showTaskList(List<Tasks> tasksList){
+    private void showTaskList(List<Tasks> tasksList){
         for (int i = 0; i < tasksList.size(); i++){
             System.out.println(String.format("%d: Task - %s", i+1, tasksList.get(i).getName()));
         }
+    }
+
+    public void showTasksToUser(){
+        List<Tasks> tasksList = taskController.getAllTaskByUser(user);
+        showTaskList(tasksList);
     }
 
     public TaskViewResult editTask(){

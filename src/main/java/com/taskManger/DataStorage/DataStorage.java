@@ -2,10 +2,7 @@ package com.taskManger.DataStorage;
 
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.taskManger.entities.ListOfTasks;
-import com.taskManger.entities.Tasks;
-import com.taskManger.entities.User;
-import com.taskManger.entities.WatcherForTasks;
+import com.taskManger.entities.*;
 import lombok.ToString;
 
 import java.io.*;
@@ -22,7 +19,7 @@ public class DataStorage {
     List<Tasks> tasksList = new ArrayList<>();
     List<ListOfTasks> listOfTasks = new ArrayList<>();
     List<WatcherForTasks> watcherForTasksList = new ArrayList<>();
-
+    List<TaskForUser> taskForUserList = new ArrayList<>();
 
     private DataStorage() {
 
@@ -69,5 +66,11 @@ public class DataStorage {
         this.watcherForTasksList = watcherForTasksList;
     }
 
+    public List<TaskForUser> getTaskForUserList() {
+        return taskForUserList;
+    }
 
+    public void setTaskForUserList(List<TaskForUser> taskForUserList) {
+        this.taskForUserList = taskForUserList;
+    }
 }

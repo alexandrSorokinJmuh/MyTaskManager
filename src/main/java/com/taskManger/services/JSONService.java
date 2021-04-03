@@ -9,12 +9,12 @@ import com.github.fge.jsonschema.main.JsonSchemaFactory;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.taskManger.DataStorage.DataStorage;
-import com.taskManger.entities.ListOfTasks;
-import com.taskManger.entities.Tasks;
-import com.taskManger.entities.User;
-import com.taskManger.entities.WatcherForTasks;
+import com.taskManger.entities.*;
 import com.taskManger.exception.JsonValidationException;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.io.File;
 import java.io.FileReader;
@@ -41,6 +41,7 @@ public class JSONService {
         List<Tasks> tasksList;
         List<WatcherForTasks> watcherForTasks;
         List<ListOfTasks> listOfTasks;
+        List<TaskForUser> taskForUserList;
     }
 
 
@@ -50,12 +51,14 @@ public class JSONService {
         jsonFormatList.tasksList = dataStorage.getTasksList();
         jsonFormatList.listOfTasks = dataStorage.getListOfTasks();
         jsonFormatList.watcherForTasks = dataStorage.getWatcherForTasksList();
+        jsonFormatList.taskForUserList = dataStorage.getTaskForUserList();
     }
     void exportToDataStorage(JSONFormatList jsonFormatList){
         dataStorage.setUserList(jsonFormatList.getUserList());
         dataStorage.setTasksList(jsonFormatList.getTasksList());
         dataStorage.setListOfTasks(jsonFormatList.getListOfTasks());
         dataStorage.setWatcherForTasksList(jsonFormatList.getWatcherForTasks());
+        dataStorage.setTaskForUserList(jsonFormatList.getTaskForUserList());
     }
 
 

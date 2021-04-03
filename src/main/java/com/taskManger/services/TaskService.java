@@ -1,10 +1,12 @@
 package com.taskManger.services;
 
-import com.taskManger.entities.ListOfTasks;
+import com.taskManger.entities.TaskForUser;
 import com.taskManger.entities.Tasks;
 import com.taskManger.entities.User;
 import com.taskManger.exception.EntityNotFoundException;
 import com.taskManger.exception.UUIDIsNotUniqueException;
+import com.taskManger.repositories.ListOfTasksRepository;
+import com.taskManger.repositories.TaskForUserRepository;
 import com.taskManger.repositories.TaskRepository;
 import com.taskManger.repositories.WatcherForTasksRepository;
 import lombok.NonNull;
@@ -17,10 +19,12 @@ public class TaskService {
 
     TaskRepository taskRepository;
     WatcherForTasksRepository watcherForTasksRepository;
+    TaskForUserRepository taskForUserRepository;
 
-    public TaskService(TaskRepository taskRepository, WatcherForTasksRepository watcherForTasksRepository) {
+    public TaskService(TaskRepository taskRepository, WatcherForTasksRepository watcherForTasksRepository, TaskForUserRepository taskForUserRepository) {
         this.taskRepository = taskRepository;
         this.watcherForTasksRepository = watcherForTasksRepository;
+        this.taskForUserRepository = taskForUserRepository;
     }
 
     public Tasks registerNewTask(String name, String creatorUuid, String description, Date alertTime) throws UUIDIsNotUniqueException {
@@ -70,6 +74,11 @@ public class TaskService {
     }
 
     public void deleteTask(@NonNull String taskUuid) throws UUIDIsNotUniqueException, EntityNotFoundException {
+        List<TaskForUser> taskForUsers = taskForUserRepository.getEntitiesByTask(taskUuid);
+        for (TaskForUser i : taskForUsers){
+            taskForUserRepository.delete(i.getUuid());
+        }
+
         taskRepository.delete(taskUuid);
     }
 
@@ -78,7 +87,7 @@ public class TaskService {
         return new Tasks(taskUuid, "Create list of task", user.getUuid(), String.format("create list of task by user: %s (default)", user.getUsername()), new Date(), true);
     }
 
-    public List<Tasks> getAllTaskByUser(User user) {
-        return taskRepository.getTasksByCreator(user.getUuid());
+    public List<Tasks> getAllTaskByUser(@NonNull String user) {
+        return taskRepository.getTasksByCreator(user);
     }
 }

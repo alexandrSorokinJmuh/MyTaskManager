@@ -3,6 +3,7 @@ package com.taskManger.repositories;
 import com.taskManger.DataStorage.DataStorage;
 import com.taskManger.entities.Entity;
 import com.taskManger.entities.ListOfTasks;
+import com.taskManger.entities.TaskForUser;
 import com.taskManger.entities.Tasks;
 import com.taskManger.exception.EntityNotFoundException;
 import com.taskManger.exception.UUIDIsNotUniqueException;
@@ -104,5 +105,6 @@ public class TaskRepository implements Repository{
         List<Tasks> tasksList = this.findBy((Entity task) -> ((Tasks)task).getCreatorUuid().equals(creatorUuid));
         return tasksList;
     }
+
 
 }

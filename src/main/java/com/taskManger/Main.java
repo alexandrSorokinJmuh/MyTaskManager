@@ -1,25 +1,20 @@
 package com.taskManger;
 
 import com.taskManger.DataStorage.DataStorage;
+import com.taskManger.controllers.ListOfTasksController;
 import com.taskManger.controllers.TaskController;
 import com.taskManger.controllers.UserController;
-import com.taskManger.entities.ListOfTasks;
-import com.taskManger.entities.Tasks;
-import com.taskManger.entities.User;
-import com.taskManger.entities.WatcherForTasks;
+import com.taskManger.entities.*;
+import com.taskManger.exception.EntityNotFoundException;
 import com.taskManger.exception.JsonValidationException;
 import com.taskManger.exception.UUIDIsNotUniqueException;
 import com.taskManger.exception.UsernameNotUniqueException;
-import com.taskManger.repositories.TaskRepository;
-import com.taskManger.repositories.UserRepository;
-import com.taskManger.repositories.WatcherForTasksRepository;
+import com.taskManger.repositories.*;
 import com.taskManger.services.JSONService;
+import com.taskManger.services.ListOfTaskService;
 import com.taskManger.services.TaskService;
 import com.taskManger.services.UserService;
-import com.taskManger.views.AuthorizationView;
-import com.taskManger.views.MainMenuView;
-import com.taskManger.views.TaskView;
-import com.taskManger.views.ViewResolver;
+import com.taskManger.views.*;
 
 import java.io.IOException;
 import java.util.*;
@@ -31,28 +26,48 @@ public class Main {
     public static void main(String[] args) {
 
         DataStorage dataStorage = DataStorage.getInstance();
-        JSONService jsonService = new JSONService(dataStorage);
+
+
+        // Repositories
         UserRepository userRepository = new UserRepository(dataStorage);
-        UserService userService = new UserService(userRepository);
-        UserController userController = new UserController(userService);
-
-        WatcherForTasksRepository watcherForTasksRepository = new WatcherForTasksRepository(dataStorage);
-
         TaskRepository taskRepository = new TaskRepository(dataStorage);
-        TaskService taskService = new TaskService(taskRepository, watcherForTasksRepository);
-        TaskController taskController = new TaskController(taskService);
+        WatcherForTasksRepository watcherForTasksRepository = new WatcherForTasksRepository(dataStorage);
+        TaskForUserRepository taskForUserRepository = new TaskForUserRepository(dataStorage);
+        ListOfTasksRepository listOfTasksRepository = new ListOfTasksRepository(dataStorage);
 
+
+        // Services
+        UserService userService = new UserService(userRepository);
+        JSONService jsonService = new JSONService(dataStorage);
+        TaskService taskService = new TaskService(taskRepository, watcherForTasksRepository, taskForUserRepository);
+        ListOfTaskService listOfTaskService = new ListOfTaskService(taskRepository, listOfTasksRepository, taskForUserRepository);
+
+
+
+        // Controllers
+        UserController userController = new UserController(userService);
+        TaskController taskController = new TaskController(taskService);
+        ListOfTasksController listOfTasksController = new ListOfTasksController(listOfTaskService);
+
+
+        // Import json data
         TestMethods testMethods = new TestMethods();
         testMethods.testImport(jsonService);
+//        testMethods.testExport(dataStorage, jsonService, userController, taskController, listOfTasksController);
 
+        //Views
         AuthorizationView authorizationView = new AuthorizationView(userController);
         MainMenuView mainMenuView = new MainMenuView(userController, taskController, null);
         TaskView taskView = new TaskView(userController, taskController, null ,null);
-        ViewResolver viewResolver = new ViewResolver(authorizationView, mainMenuView, taskView);
+        ListOfTasksView listOfTasksView = new ListOfTasksView(userController, taskController, listOfTasksController);
 
+        ViewResolver viewResolver = new ViewResolver(authorizationView, mainMenuView, taskView, listOfTasksView);
+
+
+        // Run application
         viewResolver.authorizationViewResponse(null);
+        testMethods.justExport(jsonService);
 //        testMethods.testImport(jsonService);
-//        testMethods.testExport(dataStorage, jsonService, userController, taskController);
     }
     static class TestMethods{
         public void testImport(JSONService jsonService) {
@@ -63,7 +78,15 @@ public class Main {
             }
         }
 
-        public void testExport(DataStorage dataStorage, JSONService jsonService, UserController userController, TaskController taskController) {
+        public void justExport(JSONService jsonService){
+            try {
+                jsonService.exportJson("src/main/resources/auto_created.json");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        public void testExport(DataStorage dataStorage, JSONService jsonService, UserController userController, TaskController taskController, ListOfTasksController listOfTasksController) {
             List<User> userList = new ArrayList<>();
             try {
                 for (int i = 0; i < 10; i++) {
@@ -93,9 +116,24 @@ public class Main {
 
             List<ListOfTasks> listOfTasks = new LinkedList<>();
             for (int i = 0; i < 10; i++) {
-                listOfTasks.add(new ListOfTasks(UUID.randomUUID().toString(), userList.get(i).getUuid(), userList.get(i).getUuid(), tasksList.get(i).getUuid(), "list of task" + i));
+                try {
+                    listOfTasks.add(listOfTasksController.createNewListOfTasks(userList.get(i), "name" + i));
+                } catch (UUIDIsNotUniqueException e) {
+                    e.printStackTrace();
+                }
             }
-            dataStorage.setListOfTasks(listOfTasks);
+
+            List<TaskForUser> taskForUserList = new LinkedList<>();
+            for (int i = 0; i < 10; i++) {
+                try {
+                    taskForUserList.add(listOfTasksController.addTaskToList(userList.get(i), listOfTasks.get(i), tasksList.get(i), "name" + i));
+                } catch (UUIDIsNotUniqueException e) {
+                    e.printStackTrace();
+                } catch (EntityNotFoundException e) {
+                    e.printStackTrace();
+                }
+            }
+
             dataStorage.setWatcherForTasksList(watcherForTasks);
 
 

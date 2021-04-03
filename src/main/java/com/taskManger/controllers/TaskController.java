@@ -24,8 +24,8 @@ public class TaskController {
 
         return tasks;
     }
-    public List<Tasks> getAllTaskByUser(User user){
-        return taskService.getAllTaskByUser(user);
+    public List<Tasks> getAllTaskByUser(@NonNull User user){
+        return taskService.getAllTaskByUser(user.getUuid());
     }
 
     public void changeName(@NonNull Tasks tasks, @NonNull String nameNew) throws UUIDIsNotUniqueException, EntityNotFoundException {

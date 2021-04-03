@@ -90,4 +90,12 @@ public class UserService {
                 str.getBytes(StandardCharsets.UTF_8));
         return new String(Hex.encode(hash));
     }
+
+    public User getUserByUuid(@NonNull String userUuid) throws UUIDIsNotUniqueException, EntityNotFoundException {
+        return userRepository.getEntity(userUuid);
+    }
+
+    public List<User> getAllUsers() {
+        return userRepository.getAll();
+    }
 }

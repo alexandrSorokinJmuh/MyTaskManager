@@ -3,6 +3,7 @@ package com.taskManger.repositories;
 import com.taskManger.DataStorage.DataStorage;
 import com.taskManger.entities.Entity;
 import com.taskManger.entities.ListOfTasks;
+import com.taskManger.entities.Tasks;
 import com.taskManger.exception.EntityNotFoundException;
 import com.taskManger.exception.UUIDIsNotUniqueException;
 import lombok.NonNull;
@@ -46,6 +47,7 @@ public class ListOfTasksRepository implements Repository{
 
         return result;
     }
+
 
     public ListOfTasks create(Entity entity) throws NullPointerException, UUIDIsNotUniqueException, IllegalArgumentException{
         if(entity == null)
@@ -108,4 +110,8 @@ public class ListOfTasksRepository implements Repository{
         return resultList;
     }
 
+    public List<ListOfTasks> getListsByCreator(String creatorUuid) {
+        List<ListOfTasks> listOfTasks = this.findBy((Entity task) -> ((ListOfTasks)task).getCreatorUuid().equals(creatorUuid));
+        return listOfTasks;
+    }
 }

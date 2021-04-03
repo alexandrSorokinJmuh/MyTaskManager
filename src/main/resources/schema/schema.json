@@ -41,6 +41,9 @@
           "name" : {
             "type" : "string"
           },
+          "creatorUuid" : {
+            "type" : "string"
+          },
           "description" : {
             "type" : "string"
           },
@@ -76,6 +79,27 @@
         "id" : "urn:jsonschema:com:taskManger:entities:ListOfTasks",
         "properties" : {
           "uuid" : {
+            "type" : "string"
+          },
+          "creatorUuid" : {
+            "type" : "string"
+          },
+          "name" : {
+            "type" : "string"
+          }
+        }
+      }
+    },
+    "taskForUserList" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "id" : "urn:jsonschema:com:taskManger:entities:TaskForUser",
+        "properties" : {
+          "uuid" : {
+            "type" : "string"
+          },
+          "listUuid" : {
             "type" : "string"
           },
           "userUuid" : {

@@ -1,75 +1,145 @@
 package com.taskManger.services;
 
-import com.taskManger.entities.Entity;
-import com.taskManger.entities.ListOfTasks;
-import com.taskManger.entities.Tasks;
+import com.taskManger.entities.*;
 import com.taskManger.exception.EntityNotFoundException;
 import com.taskManger.exception.UUIDIsNotUniqueException;
 import com.taskManger.repositories.ListOfTasksRepository;
+import com.taskManger.repositories.TaskForUserRepository;
 import com.taskManger.repositories.TaskRepository;
+import com.taskManger.repositories.UserRepository;
 import lombok.NonNull;
 
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
 
 public class ListOfTaskService {
-
+    UserRepository userRepository;
     TaskRepository taskRepository;
     ListOfTasksRepository listOfTasksRepository;
+    TaskForUserRepository taskForUserRepository;
 
-    public ListOfTaskService(TaskRepository taskRepository, ListOfTasksRepository listOfTasksRepository) {
+    public ListOfTaskService(@NonNull TaskRepository taskRepository, @NonNull ListOfTasksRepository listOfTasksRepository, @NonNull TaskForUserRepository taskForUserRepository) {
         this.taskRepository = taskRepository;
         this.listOfTasksRepository = listOfTasksRepository;
+        this.taskForUserRepository = taskForUserRepository;
     }
 
 
-    public ListOfTasks registerNewTask(@NonNull String creatorUuid, @NonNull String userUuid, @NonNull String taskUuid, @NonNull String name) throws UUIDIsNotUniqueException {
-
-        if (name == null)
-            throw new NullPointerException("List of Tasks name must be not null");
-
-
+    public ListOfTasks createNewList(@NonNull String creatorUuid, @NonNull String name) throws UUIDIsNotUniqueException {
         String listOfTasksUuid = UUID.randomUUID().toString();
-        ListOfTasks listOfTasks = new ListOfTasks(listOfTasksUuid, creatorUuid, userUuid, taskUuid, name);
+        ListOfTasks listOfTasks = new ListOfTasks(listOfTasksUuid, creatorUuid, name);
 
         listOfTasksRepository.create(listOfTasks);
 
         return listOfTasks;
     }
 
-    public ListOfTasks addTaskToList(@NonNull String userUuid, @NonNull String taskUuid, @NonNull String name) throws UUIDIsNotUniqueException {
+    public TaskForUser addTaskToList(@NonNull String listUuid, @NonNull String userUuid, @NonNull String taskUuid, @NonNull String name) throws UUIDIsNotUniqueException, EntityNotFoundException {
 
-        if (name == null)
-            throw new NullPointerException("List of Tasks name must be not null");
 
-        List<ListOfTasks> listOfTasks = listOfTasksRepository.getEntitiesByName(name);
-        ListOfTasks e1 = listOfTasks.get(0);
-        String listOfTaskUuid = UUID.randomUUID().toString();
-        ListOfTasks listOfTasksNew = new ListOfTasks(listOfTaskUuid, e1.getCreatorUuid(), userUuid, taskUuid, name);
+        ListOfTasks listOfTasks = listOfTasksRepository.getEntity(listUuid);
+        String taskForUserUuid = UUID.randomUUID().toString();
+        TaskForUser taskForUser = new TaskForUser(taskForUserUuid, listUuid, userUuid, taskUuid, name);
 
-        listOfTasksRepository.create(listOfTasksNew);
+        TaskForUser taskForUserNew = taskForUserRepository.create(taskForUser);
 
-        return listOfTasksNew;
+        return taskForUserNew;
     }
 
-    public ListOfTasks changeTask(@NonNull String listOfTaskUuid, @NonNull String taskUuidNew) throws UUIDIsNotUniqueException, EntityNotFoundException {
+    public TaskForUser changeTask(@NonNull String taskForUserUuid, @NonNull String taskUuidNew) throws UUIDIsNotUniqueException, EntityNotFoundException {
+        TaskForUser taskForUser = taskForUserRepository.getEntity(taskForUserUuid);
+        taskForUser.setTaskUuid(taskUuidNew);
+        listOfTasksRepository.update(taskForUser);
+        return taskForUser;
+    }
+
+    public void deleteOnlyTaskForUser(@NonNull String taskForUserUuid) throws UUIDIsNotUniqueException, EntityNotFoundException {
+        taskForUserRepository.delete(taskForUserUuid);
+    }
+
+    public void deleteTask(@NonNull String taskUuid) throws UUIDIsNotUniqueException, EntityNotFoundException {
+        taskRepository.delete(taskUuid);
+    }
+
+    public void deleteAllList(@NonNull String listUuid) throws UUIDIsNotUniqueException, EntityNotFoundException {
+        List<TaskForUser> taskForUsers = taskForUserRepository.getEntitiesByList(listUuid);
+
+        for (TaskForUser i : taskForUsers) {
+            taskForUserRepository.delete(i.getUuid());
+        }
+
+        listOfTasksRepository.delete(listUuid);
+    }
+
+
+    public List<ListOfTasks> getAllListsByUser(@NonNull String user) {
+        return listOfTasksRepository.getListsByCreator(user);
+    }
+
+    public List<TaskForUser> getAllTasksByList(@NonNull String listUuid) {
+        return taskForUserRepository.getEntitiesByList(listUuid);
+    }
+
+    public ListOfTasks changeName(@NonNull String listOfTaskUuid, @NonNull String nameNew) throws UUIDIsNotUniqueException, EntityNotFoundException {
+
         ListOfTasks listOfTasks = listOfTasksRepository.getEntity(listOfTaskUuid);
-        listOfTasks.setTaskUuid(taskUuidNew);
+        listOfTasks.setName(nameNew);
         listOfTasksRepository.update(listOfTasks);
+
         return listOfTasks;
     }
 
-    public void deleteTask(@NonNull String listOfTaskUuid) throws UUIDIsNotUniqueException, EntityNotFoundException {
-        listOfTasksRepository.delete(listOfTaskUuid);
-    }
+    public List<User> getUsersNotInTask(@NonNull String taskUuid) {
+        List<User> userList = new LinkedList<>(userRepository.getAll());
 
-    public void deleteAllList(@NonNull String name) throws UUIDIsNotUniqueException, EntityNotFoundException {
-        List<ListOfTasks> listOfTasks = listOfTasksRepository.getEntitiesByName(name);
-        for(ListOfTasks i : listOfTasks){
-            listOfTasksRepository.delete(i.getUuid());
+        List<String> usersUuid = taskForUserRepository.getUsersUuidInTask(taskUuid);
+        try {
+            for (String userUuid : usersUuid) {
+                User user = userRepository.getEntity(userUuid);
+                if(userList.contains(user))
+                    userList.remove(user);
+            }
+        } catch (UUIDIsNotUniqueException | EntityNotFoundException e) {
+            e.printStackTrace();
         }
+
+        return userList;
     }
 
+    public void createTaskForUser(@NonNull String listUuid, @NonNull String taskUuid, @NonNull String userUuid, @NonNull String name) throws UUIDIsNotUniqueException {
+        String taskForUserUuid = UUID.randomUUID().toString();
+        TaskForUser taskForUser = new TaskForUser(taskForUserUuid, listUuid, userUuid, taskUuid, name);
 
+        taskForUserRepository.create(taskForUser);
+    }
+
+    public List<TaskForUser> changeTaskForUserName(@NonNull String taskForUserUuid, @NonNull String nameNew) throws UUIDIsNotUniqueException, EntityNotFoundException {
+        TaskForUser taskForUser = taskForUserRepository.getEntity(taskForUserUuid);
+        List<TaskForUser> taskForUserList = taskForUserRepository.getEntitiesByName(taskForUser.getName());
+        for (TaskForUser task : taskForUserList){
+            task.setName(nameNew);
+            taskForUserRepository.update(taskForUser);
+        }
+
+
+        return taskForUserList;
+    }
+
+    public List<Tasks> getTasksNotInList(@NonNull String listOfTaskUuid) {
+        List<Tasks> tasksList = new LinkedList<>(taskRepository.getAll());
+        List<String> tasksUuid = taskForUserRepository.getTasksUuidInList(listOfTaskUuid);
+        try {
+            for (String uuid : tasksUuid) {
+                Tasks task = taskRepository.getEntity(uuid);
+                if(tasksList.contains(task))
+                    tasksList.remove(task);
+            }
+        } catch (UUIDIsNotUniqueException | EntityNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        return tasksList;
+    }
 }

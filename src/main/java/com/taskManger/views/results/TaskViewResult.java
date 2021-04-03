@@ -2,6 +2,9 @@ package com.taskManger.views.results;
 
 public enum TaskViewResult {
     WRONG_INPUT,
+
+    SHOW_TASKS,
+
     EDIT_TASK,
     CREATE_TASK,
     DELETE_TASK,
