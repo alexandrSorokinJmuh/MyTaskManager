@@ -39,8 +39,8 @@ public class Main {
         // Services
         UserService userService = new UserService(userRepository);
         JSONService jsonService = new JSONService(dataStorage);
-        TaskService taskService = new TaskService(taskRepository, watcherForTasksRepository, taskForUserRepository);
-        ListOfTaskService listOfTaskService = new ListOfTaskService(taskRepository, listOfTasksRepository, taskForUserRepository);
+        TaskService taskService = new TaskService(userRepository, taskRepository, watcherForTasksRepository, taskForUserRepository);
+        ListOfTaskService listOfTaskService = new ListOfTaskService(userRepository, taskRepository, listOfTasksRepository, taskForUserRepository);
 
 
 
@@ -60,13 +60,17 @@ public class Main {
         MainMenuView mainMenuView = new MainMenuView(userController, taskController, null);
         TaskView taskView = new TaskView(userController, taskController, null ,null);
         ListOfTasksView listOfTasksView = new ListOfTasksView(userController, taskController, listOfTasksController);
+        FindTaskView findTaskView = new FindTaskView(userController, taskController, listOfTasksController);
 
-        ViewResolver viewResolver = new ViewResolver(authorizationView, mainMenuView, taskView, listOfTasksView);
+        ViewResolver viewResolver = new ViewResolver(authorizationView, mainMenuView, listOfTasksView, findTaskView, taskView);
+
 
 
         // Run application
         viewResolver.authorizationViewResponse(null);
         testMethods.justExport(jsonService);
+
+
 //        testMethods.testImport(jsonService);
     }
     static class TestMethods{

@@ -1,10 +1,7 @@
 package com.taskManger.views;
 
 import com.taskManger.entities.User;
-import com.taskManger.views.results.AuthorizationViewResult;
-import com.taskManger.views.results.ListOfTasksViewResult;
-import com.taskManger.views.results.MainMenuViewResult;
-import com.taskManger.views.results.TaskViewResult;
+import com.taskManger.views.results.*;
 
 import java.util.InputMismatchException;
 
@@ -12,14 +9,16 @@ public class ViewResolver {
     AuthorizationView authorizationView;
     MainMenuView mainMenuView;
     ListOfTasksView listOfTasksView;
+    FindTaskView findTaskView;
     TaskView taskView;
     User user;
 
-    public ViewResolver(AuthorizationView authorizationView, MainMenuView mainMenuView, TaskView taskView, ListOfTasksView listOfTasksView) {
+    public ViewResolver(AuthorizationView authorizationView, MainMenuView mainMenuView, ListOfTasksView listOfTasksView, FindTaskView findTaskView, TaskView taskView) {
         this.authorizationView = authorizationView;
         this.mainMenuView = mainMenuView;
-        this.taskView = taskView;
         this.listOfTasksView = listOfTasksView;
+        this.findTaskView = findTaskView;
+        this.taskView = taskView;
     }
 
     private void signIn(User user) {
@@ -27,6 +26,7 @@ public class ViewResolver {
         mainMenuView.setUser(this.user);
         taskView.setUser(this.user);
         listOfTasksView.setUser(this.user);
+        findTaskView.setUser(this.user);
     }
 
     public void authorizationViewResponse(AuthorizationViewResult result) {
@@ -82,7 +82,8 @@ public class ViewResolver {
                         this.listOfTaskViewResponse(null);
                         return;
                     case FIND_TASK:
-                        break;
+                        this.findTaskViewResponse(null);
+                        return;
                     case WRONG_INPUT:
                         break;
                     case LOG_OUT:
@@ -388,6 +389,159 @@ public class ViewResolver {
             } catch (InputMismatchException e) {
                 System.out.println("\n\nWrong input!!!\n");
                 result = ListOfTasksViewResult.WRONG_INPUT;
+            }
+        }
+        this.mainMenuViewResponse(null);
+    }
+
+
+    public void findTaskViewResponse(FindTaskViewResult result){
+        while (result != FindTaskViewResult.BACK_TO_MAIN_MENU) {
+            try {
+                result = findTaskView.mainMenu();
+
+                switch (result) {
+                    case FILTER_BY_NAME:
+                        filterByNameViewResponse(null);
+                        return;
+                    case FILTER_BY_ALERT_TIME:
+                        filterByAlertTimeViewResponse(null);
+                        return;
+                    case FILTER_BY_USER:
+                        filterByUserViewResponse(null);
+                        return;
+                    case FILTER_BY_LIST:
+                        filterByListViewResponse(null);
+                        return;
+                    case SHOW_RESULT:
+                    case CLEAR_FILTER:
+                    case WRONG_INPUT:
+                        break;
+                    case BACK_TO_MAIN_MENU:
+                        break;
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("\n\nWrong input!!!\n");
+                result = FindTaskViewResult.WRONG_INPUT;
+            }
+        }
+        this.mainMenuViewResponse(null);
+    }
+
+
+    public void filterByNameViewResponse(FindTaskViewResult result){
+        while (result != FindTaskViewResult.BACK_TO_MAIN_MENU) {
+            try {
+                result = findTaskView.filterByNameView();
+                switch (result) {
+                    case CHANGE_MATCH_TYPE:
+                    case SET_NAME_PATTERN:
+                        break;
+
+                    case WRONG_INPUT:
+                    case WRONG_INDEX:
+                        break;
+
+                    case CLEAR_FILTER:
+                    case BACK_TO_FILTER_MENU:
+                        this.findTaskViewResponse(null);
+                        return;
+
+                    case BACK_TO_MAIN_MENU:
+                        break;
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("\n\nWrong input!!!\n");
+                result = FindTaskViewResult.WRONG_INPUT;
+            }
+        }
+        this.mainMenuViewResponse(null);
+    }
+
+    public void filterByAlertTimeViewResponse(FindTaskViewResult result){
+        while (result != FindTaskViewResult.BACK_TO_MAIN_MENU) {
+            try {
+                result = findTaskView.filterByAlertTimeView();
+                switch (result) {
+                    case CHANGE_ALERT_TIME_TYPE:
+                    case SET_ALERT_TIME:
+                        break;
+
+                    case WRONG_INPUT:
+                    case WRONG_INDEX:
+                        break;
+
+                    case CLEAR_FILTER:
+                    case BACK_TO_FILTER_MENU:
+                        this.findTaskViewResponse(null);
+                        return;
+
+                    case BACK_TO_MAIN_MENU:
+                        break;
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("\n\nWrong input!!!\n");
+                result = FindTaskViewResult.WRONG_INPUT;
+            }
+        }
+        this.mainMenuViewResponse(null);
+    }
+
+    public void filterByUserViewResponse(FindTaskViewResult result){
+        while (result != FindTaskViewResult.BACK_TO_MAIN_MENU) {
+            try {
+                result = findTaskView.filterByUserView();
+                switch (result) {
+                    case CHANGE_AVAILABLE_TASKS:
+                    case SET_USERNAME_PATTERN:
+                    case SET_FIRST_NAME_PATTERN:
+                    case SET_LAST_NAME_PATTERN:
+                        break;
+
+                    case WRONG_INPUT:
+                    case WRONG_INDEX:
+                        break;
+
+                    case CLEAR_FILTER:
+                    case BACK_TO_FILTER_MENU:
+                        this.findTaskViewResponse(null);
+                        return;
+
+                    case BACK_TO_MAIN_MENU:
+                        break;
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("\n\nWrong input!!!\n");
+                result = FindTaskViewResult.WRONG_INPUT;
+            }
+        }
+        this.mainMenuViewResponse(null);
+    }
+
+    public void filterByListViewResponse(FindTaskViewResult result){
+        while (result != FindTaskViewResult.BACK_TO_MAIN_MENU) {
+            try {
+                result = findTaskView.filterByListView();
+                switch (result) {
+                    case CHANGE_AVAILABLE_TASKS:
+                    case SET_LIST_NAME_PATTERN:
+                        break;
+
+                    case WRONG_INPUT:
+                    case WRONG_INDEX:
+                        break;
+
+                    case CLEAR_FILTER:
+                    case BACK_TO_FILTER_MENU:
+                        this.findTaskViewResponse(null);
+                        return;
+
+                    case BACK_TO_MAIN_MENU:
+                        break;
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("\n\nWrong input!!!\n");
+                result = FindTaskViewResult.WRONG_INPUT;
             }
         }
         this.mainMenuViewResponse(null);

@@ -114,4 +114,9 @@ public class ListOfTasksRepository implements Repository{
         List<ListOfTasks> listOfTasks = this.findBy((Entity task) -> ((ListOfTasks)task).getCreatorUuid().equals(creatorUuid));
         return listOfTasks;
     }
+
+
+    public List<ListOfTasks> getEntitiesWithNameLike(String listNamePattern) {
+        return findBy((Entity listOfTask) -> ((ListOfTasks)listOfTask).getName().contains(listNamePattern));
+    }
 }

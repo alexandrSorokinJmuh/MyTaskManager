@@ -79,6 +79,14 @@
       "firstName": "as",
       "lastName": "sd",
       "phone": "123"
+    },
+    {
+      "uuid": "8a36f952-83d5-474c-9c41-85729a1a877c",
+      "username": "asd",
+      "password": "688787d8ff144c502c7f5cffaafe2cc588d86079f9de88304c26b0cb99ce91c6",
+      "firstName": "edik",
+      "lastName": "lol",
+      "phone": "1234454"
     }
   ],
   "tasksList": [
@@ -160,6 +168,14 @@
       "creatorUuid": "ba137806-712c-4ed5-ba7a-253ffdbd73b4",
       "description": "",
       "alert_time": "2021-04-03T21:49:45+0400",
+      "alert_received": false
+    },
+    {
+      "uuid": "8638563f-7163-43f9-80c3-9abca0a7067b",
+      "name": "newTask1",
+      "creatorUuid": "1b854a37-6c99-4a55-8369-501437b2a85b",
+      "description": "test description",
+      "alert_time": "2022-01-22T00:02:00+0400",
       "alert_received": false
     }
   ],
@@ -338,7 +354,14 @@
       "listUuid": "01b434b8-d058-44ef-80c7-ca4781f08fbc",
       "userUuid": "8cd727ef-6c12-4941-846e-266d65537927",
       "taskUuid": "8f39eb7d-4231-491f-8887-528a43f94b70",
-      "name": ""
+      "name": "task2"
+    },
+    {
+      "uuid": "58186632-cfa5-4e86-b639-125f8a67f220",
+      "listUuid": "01b434b8-d058-44ef-80c7-ca4781f08fbc",
+      "userUuid": "8cd727ef-6c12-4941-846e-266d65537927",
+      "taskUuid": "ccf09ff7-f024-4d59-8552-4768dd37af5c",
+      "name": "task3"
     }
   ]
 }

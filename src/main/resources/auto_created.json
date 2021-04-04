@@ -79,6 +79,14 @@
       "firstName": "as",
       "lastName": "sd",
       "phone": "123"
+    },
+    {
+      "uuid": "8a36f952-83d5-474c-9c41-85729a1a877c",
+      "username": "asd",
+      "password": "688787d8ff144c502c7f5cffaafe2cc588d86079f9de88304c26b0cb99ce91c6",
+      "firstName": "edik",
+      "lastName": "lol",
+      "phone": "1234454"
     }
   ],
   "tasksList": [

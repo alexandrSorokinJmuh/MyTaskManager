@@ -3,25 +3,24 @@ package com.taskManger.services;
 import com.taskManger.entities.TaskForUser;
 import com.taskManger.entities.Tasks;
 import com.taskManger.entities.User;
+import com.taskManger.entities.WatcherForTasks;
 import com.taskManger.exception.EntityNotFoundException;
 import com.taskManger.exception.UUIDIsNotUniqueException;
-import com.taskManger.repositories.ListOfTasksRepository;
-import com.taskManger.repositories.TaskForUserRepository;
-import com.taskManger.repositories.TaskRepository;
-import com.taskManger.repositories.WatcherForTasksRepository;
+import com.taskManger.repositories.*;
+import com.taskManger.views.ListOfTasksView;
 import lombok.NonNull;
 
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class TaskService {
-
+    UserRepository userRepository;
     TaskRepository taskRepository;
     WatcherForTasksRepository watcherForTasksRepository;
     TaskForUserRepository taskForUserRepository;
 
-    public TaskService(TaskRepository taskRepository, WatcherForTasksRepository watcherForTasksRepository, TaskForUserRepository taskForUserRepository) {
+    public TaskService(UserRepository userRepository, TaskRepository taskRepository, WatcherForTasksRepository watcherForTasksRepository, TaskForUserRepository taskForUserRepository) {
+        this.userRepository = userRepository;
         this.taskRepository = taskRepository;
         this.watcherForTasksRepository = watcherForTasksRepository;
         this.taskForUserRepository = taskForUserRepository;
@@ -89,5 +88,89 @@ public class TaskService {
 
     public List<Tasks> getAllTaskByUser(@NonNull String user) {
         return taskRepository.getTasksByCreator(user);
+    }
+
+    public List<Tasks> getAll() {
+        return taskRepository.getAll();
+    }
+
+    public List<Tasks> getWatchedTasks(@NonNull String userUuid) throws UUIDIsNotUniqueException, EntityNotFoundException {
+        List<WatcherForTasks> watchedTasks = watcherForTasksRepository.getEntitiesByUser(userUuid);
+        Set<Tasks> tasksList = new HashSet<>();
+        for(WatcherForTasks watcherForTask : watchedTasks){
+            Tasks task = taskRepository.getEntity(watcherForTask.getContactUuid());
+            tasksList.add(task);
+        }
+        return new ArrayList<>(tasksList);
+    }
+
+    public Tasks getTaskByUuid(String taskUuid) throws UUIDIsNotUniqueException, EntityNotFoundException {
+        return taskRepository.getEntity(taskUuid);
+    }
+
+    public List<Tasks> getTaskWithNameLike(String namePattern, List<Tasks> tasksList) {
+        return tasksList.stream()
+                .filter((Tasks task)-> task.getName().equals(namePattern))
+                .collect(Collectors.toList());
+    }
+
+    public List<Tasks> getTaskWithName(String namePattern, List<Tasks> tasksList) {
+        return tasksList.stream()
+                .filter((Tasks task)-> task.getName().contains(namePattern))
+                .sorted((lhs, rhs) -> {
+                    int indexL = lhs.getName().indexOf(namePattern);
+                    int indexR = rhs.getName().indexOf(namePattern);
+                    return Integer.compare(indexR, indexL);
+                })
+                .collect(Collectors.toList());
+    }
+    public List<Tasks> getTasksWithAlertTimeBefore(Date alertTimePattern, List<Tasks> tasksList) {
+        return tasksList.stream()
+                .filter((Tasks task) -> task.getAlert_time().before(alertTimePattern))
+                .collect(Collectors.toList());
+    }
+
+    public List<Tasks> getTasksWithAlertTimeAfter(Date alertTimePattern, List<Tasks> tasksList) {
+        return tasksList.stream()
+                .filter((Tasks task) -> task.getAlert_time().after(alertTimePattern))
+                .collect(Collectors.toList());
+    }
+
+    public List<Tasks> getTasksWithAlertTimeEquals(Date alertTimePattern, List<Tasks> tasksList) {
+        return tasksList.stream()
+                .filter((Tasks task) -> task.getAlert_time().equals(alertTimePattern))
+                .collect(Collectors.toList());
+    }
+
+
+    public List<Tasks> getAvailableTasks(User user, List<Tasks> tasksList) {
+        List<Tasks> resultList = new LinkedList<>();
+        try {
+            List<Tasks> watchedTasks = getWatchedTasks(user.getUuid());
+            for(Tasks task : tasksList) {
+                if(watchedTasks.contains(task)) {
+                    resultList.add(task);
+                }
+            }
+        } catch (UUIDIsNotUniqueException | EntityNotFoundException e) {
+            e.printStackTrace();
+        }
+        return resultList;
+    }
+
+    public List<Tasks> getTasksWithCreatorLike(String userNamePattern, String firstNamePattern, String lastNamePattern, List<Tasks> tasksList) {
+        List<Tasks> resultList = new LinkedList<>();
+        for(Tasks task : tasksList){
+            try {
+                User user = userRepository.getEntity(task.getCreatorUuid());
+                if(user.getUsername().contains(userNamePattern) && user.getFirstName().contains(firstNamePattern) &&
+                        user.getLastName().contains(lastNamePattern))
+                    resultList.add(task);
+
+            } catch (UUIDIsNotUniqueException | EntityNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+        return resultList;
     }
 }

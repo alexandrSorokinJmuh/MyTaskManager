@@ -1,6 +1,5 @@
 package com.taskManger.controllers;
 
-import com.taskManger.entities.ListOfTasks;
 import com.taskManger.entities.Tasks;
 import com.taskManger.entities.User;
 import com.taskManger.exception.EntityNotFoundException;
@@ -24,6 +23,8 @@ public class TaskController {
 
         return tasks;
     }
+
+
     public List<Tasks> getAllTaskByUser(@NonNull User user){
         return taskService.getAllTaskByUser(user.getUuid());
     }
@@ -44,4 +45,44 @@ public class TaskController {
         taskService.deleteTask(tasks.getUuid());
     }
 
+    public List<Tasks> getAll() {
+        return taskService.getAll();
+    }
+
+    public List<Tasks> getWatchedTasks(User user) throws UUIDIsNotUniqueException, EntityNotFoundException {
+        return taskService.getWatchedTasks(user.getUuid());
+    }
+
+    public Tasks getTaskByUuid(String taskUuid) throws UUIDIsNotUniqueException, EntityNotFoundException {
+        return taskService.getTaskByUuid(taskUuid);
+    }
+
+    public List<Tasks> getTaskWithNameLike(String namePattern, List<Tasks> tasksList) {
+        return taskService.getTaskWithNameLike(namePattern, tasksList);
+
+    }
+
+    public List<Tasks> getTaskWithName(String namePattern, List<Tasks> tasksList) {
+        return taskService.getTaskWithName(namePattern, tasksList);
+    }
+
+    public List<Tasks> getTasksWithAlertTimeBefore(Date alertTimePattern, List<Tasks> tasksList) {
+        return taskService.getTasksWithAlertTimeBefore(alertTimePattern, tasksList);
+    }
+
+    public List<Tasks> getTasksWithAlertTimeAfter(Date alertTimePattern, List<Tasks> tasksList) {
+        return taskService.getTasksWithAlertTimeAfter(alertTimePattern, tasksList);
+    }
+
+    public List<Tasks> getTasksWithAlertTimeEquals(Date alertTimePattern, List<Tasks> tasksList) {
+        return taskService.getTasksWithAlertTimeEquals(alertTimePattern, tasksList);
+    }
+
+    public List<Tasks> getAvailableTasks(User user, List<Tasks> tasksList) {
+        return taskService.getAvailableTasks(user, tasksList);
+    }
+
+    public List<Tasks> getTasksWithCreatorLike(String userNamePattern, String firstNamePattern, String lastNamePattern, List<Tasks> tasksList) {
+        return taskService.getTasksWithCreatorLike(userNamePattern, firstNamePattern, lastNamePattern, tasksList);
+    }
 }

@@ -144,4 +144,11 @@ public class TaskForUserRepository implements Repository{
 
         return result;
     }
+    public List<TaskForUser> getEntitiesByUser(@NonNull String userUuid) {
+
+        List<TaskForUser> taskForUsers = this.findBy((Entity taskForUser) -> ((TaskForUser)taskForUser).getUserUuid().equals(userUuid));
+
+
+        return taskForUsers;
+    }
 }

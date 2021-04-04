@@ -9,10 +9,7 @@ import com.taskManger.repositories.TaskRepository;
 import com.taskManger.repositories.UserRepository;
 import lombok.NonNull;
 
-import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 public class ListOfTaskService {
     UserRepository userRepository;
@@ -20,12 +17,12 @@ public class ListOfTaskService {
     ListOfTasksRepository listOfTasksRepository;
     TaskForUserRepository taskForUserRepository;
 
-    public ListOfTaskService(@NonNull TaskRepository taskRepository, @NonNull ListOfTasksRepository listOfTasksRepository, @NonNull TaskForUserRepository taskForUserRepository) {
+    public ListOfTaskService(UserRepository userRepository, TaskRepository taskRepository, ListOfTasksRepository listOfTasksRepository, TaskForUserRepository taskForUserRepository) {
+        this.userRepository = userRepository;
         this.taskRepository = taskRepository;
         this.listOfTasksRepository = listOfTasksRepository;
         this.taskForUserRepository = taskForUserRepository;
     }
-
 
     public ListOfTasks createNewList(@NonNull String creatorUuid, @NonNull String name) throws UUIDIsNotUniqueException {
         String listOfTasksUuid = UUID.randomUUID().toString();
@@ -74,9 +71,10 @@ public class ListOfTaskService {
     }
 
 
-    public List<ListOfTasks> getAllListsByUser(@NonNull String user) {
+    public List<ListOfTasks> getListsCreatedByUser(@NonNull String user) {
         return listOfTasksRepository.getListsByCreator(user);
     }
+
 
     public List<TaskForUser> getAllTasksByList(@NonNull String listUuid) {
         return taskForUserRepository.getEntitiesByList(listUuid);
@@ -98,7 +96,7 @@ public class ListOfTaskService {
         try {
             for (String userUuid : usersUuid) {
                 User user = userRepository.getEntity(userUuid);
-                if(userList.contains(user))
+                if (userList.contains(user))
                     userList.remove(user);
             }
         } catch (UUIDIsNotUniqueException | EntityNotFoundException e) {
@@ -118,7 +116,7 @@ public class ListOfTaskService {
     public List<TaskForUser> changeTaskForUserName(@NonNull String taskForUserUuid, @NonNull String nameNew) throws UUIDIsNotUniqueException, EntityNotFoundException {
         TaskForUser taskForUser = taskForUserRepository.getEntity(taskForUserUuid);
         List<TaskForUser> taskForUserList = taskForUserRepository.getEntitiesByName(taskForUser.getName());
-        for (TaskForUser task : taskForUserList){
+        for (TaskForUser task : taskForUserList) {
             task.setName(nameNew);
             taskForUserRepository.update(taskForUser);
         }
@@ -133,7 +131,7 @@ public class ListOfTaskService {
         try {
             for (String uuid : tasksUuid) {
                 Tasks task = taskRepository.getEntity(uuid);
-                if(tasksList.contains(task))
+                if (tasksList.contains(task))
                     tasksList.remove(task);
             }
         } catch (UUIDIsNotUniqueException | EntityNotFoundException e) {
@@ -141,5 +139,78 @@ public class ListOfTaskService {
         }
 
         return tasksList;
+    }
+
+    public List<ListOfTasks> getAll() {
+        return listOfTasksRepository.getAll();
+    }
+
+    public List<ListOfTasks> getAllListsByUser(String userUuid) {
+        List<TaskForUser> taskForUserList = taskForUserRepository.getEntitiesByUser(userUuid);
+
+        Set<ListOfTasks> listOfTasks = new HashSet<>();
+        for (TaskForUser task : taskForUserList) {
+            try {
+                listOfTasks.add(listOfTasksRepository.getEntity(task.getListUuid()));
+            } catch (UUIDIsNotUniqueException | EntityNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+
+        listOfTasks.addAll(getListsCreatedByUser(userUuid));
+        return new ArrayList<>(listOfTasks);
+    }
+
+    public List<Tasks> getTaskWithListAvailableToUser(User user, List<Tasks> tasksList) {
+        List<Tasks> resultList = new LinkedList<>();
+        try {
+            List<ListOfTasks> listOfTasks = getAllListsByUser(user.getUuid());
+            List<TaskForUser> taskForUserList = new LinkedList<>();
+            for (ListOfTasks list : listOfTasks)
+                taskForUserList.addAll(getAllTasksByList(list.getUuid()));
+            Set<Tasks> tasksSet = new HashSet<>();
+
+            for (TaskForUser taskForUser : taskForUserList) {
+                Tasks task = taskRepository.getEntity(taskForUser.getTaskUuid());
+                tasksSet.add(task);
+            }
+
+
+            for (Tasks task : tasksList) {
+
+                if (tasksSet.contains(task)) {
+                    resultList.add(task);
+                }
+            }
+        } catch (UUIDIsNotUniqueException | EntityNotFoundException e) {
+            e.printStackTrace();
+        }
+        return resultList;
+    }
+
+    public List<Tasks> getTasksWithListNameLike(String listNamePattern, List<Tasks> tasksList) {
+        List<Tasks> resultList = new LinkedList<>();
+        try {
+            List<ListOfTasks> listOfTasks = listOfTasksRepository.getEntitiesWithNameLike(listNamePattern);
+            List<TaskForUser> taskForUserList = new LinkedList<>();
+            for (ListOfTasks list : listOfTasks)
+                taskForUserList.addAll(getAllTasksByList(list.getUuid()));
+            Set<Tasks> tasksSet = new HashSet<>();
+
+            for (TaskForUser taskForUser : taskForUserList) {
+                Tasks task = taskRepository.getEntity(taskForUser.getTaskUuid());
+                tasksSet.add(task);
+            }
+            for (Tasks task : tasksList) {
+
+                if (tasksSet.contains(task)) {
+                    resultList.add(task);
+                }
+            }
+        } catch (UUIDIsNotUniqueException | EntityNotFoundException e) {
+            e.printStackTrace();
+        }
+        return resultList;
+
     }
 }

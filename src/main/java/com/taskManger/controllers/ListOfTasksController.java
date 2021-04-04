@@ -7,10 +7,12 @@ import com.taskManger.entities.User;
 import com.taskManger.exception.EntityNotFoundException;
 import com.taskManger.exception.UUIDIsNotUniqueException;
 import com.taskManger.services.ListOfTaskService;
-import com.taskManger.services.TaskService;
 import lombok.NonNull;
 
+import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 public class ListOfTasksController {
 
@@ -34,11 +36,13 @@ public class ListOfTasksController {
         return result;
     }
 
-    public List<ListOfTasks> getAllListsByUser(@NonNull User user) {
-        return listOfTaskService.getAllListsByUser(user.getUuid());
+    public List<ListOfTasks> getListsCreatedByUser(@NonNull User user) {
+        return listOfTaskService.getListsCreatedByUser(user.getUuid());
     }
 
-
+    public List<ListOfTasks> getAllListsByUser(@NonNull User user){
+        return listOfTaskService.getAllListsByUser(user.getUuid());
+    }
 
     public List<TaskForUser> getAllTasksByList(@NonNull ListOfTasks listOfTasks){
         return listOfTaskService.getAllTasksByList(listOfTasks.getUuid());
@@ -75,4 +79,16 @@ public class ListOfTasksController {
         listOfTaskService.createTaskForUser(taskForUser.getListUuid(), taskForUser.getTaskUuid(), user.getUuid(), taskForUser.getName());
     }
 
+    public List<ListOfTasks> getAll() {
+        return listOfTaskService.getAll();
+    }
+
+    public List<Tasks> getTaskWithListAvailableToUser(User user, List<Tasks> tasksList){
+
+        return listOfTaskService.getTaskWithListAvailableToUser(user, tasksList);
+    }
+
+    public List<Tasks> getTasksWithListNameLike(String listNamePattern, List<Tasks> resultList) {
+        return listOfTaskService.getTasksWithListNameLike(listNamePattern, resultList);
+    }
 }

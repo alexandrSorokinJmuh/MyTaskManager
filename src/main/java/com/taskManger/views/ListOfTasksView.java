@@ -10,7 +10,6 @@ import com.taskManger.entities.User;
 import com.taskManger.exception.EntityNotFoundException;
 import com.taskManger.exception.UUIDIsNotUniqueException;
 import com.taskManger.views.results.ListOfTasksViewResult;
-import lombok.NonNull;
 
 import java.util.List;
 import java.util.Scanner;
@@ -43,7 +42,7 @@ public class ListOfTasksView {
         System.out.println("2. Edit list");
         System.out.println("3. Create list");
         System.out.println("4. Delete list");
-        System.out.println("5. Exit");
+        System.out.println("5. Back to main menu");
 
         Scanner in = new Scanner(System.in);
         System.out.print("Input a number: ");
@@ -105,21 +104,25 @@ public class ListOfTasksView {
         }
     }
     public void showListsToUser() {
-        List<ListOfTasks> listOfTasks = listOfTasksController.getAllListsByUser(user);
+        List<ListOfTasks> listOfTasks = listOfTasksController.getListsCreatedByUser(user);
         showListOfTaskList(listOfTasks);
     }
 
 
     public ListOfTasksViewResult editListOfTask() {
 
-        List<ListOfTasks> listOfTasks = listOfTasksController.getAllListsByUser(user);
+        List<ListOfTasks> listOfTasks = listOfTasksController.getListsCreatedByUser(user);
         showListOfTaskList(listOfTasks);
 
         System.out.println("\n\nChoose list index to edit");
         Scanner in = new Scanner(System.in);
         System.out.print("Input a number: ");
         int num = in.nextInt();
-        if (num >= 1 && num <= listOfTasks.size()) {
+        if(listOfTasks.size() == 0){
+            System.out.println("You have no list");
+            currentListOfTask = null;
+            return ListOfTasksViewResult.BACK_TO_LIST_VIEW;
+        }else if (num >= 1 && num <= listOfTasks.size()) {
             currentListOfTask = listOfTasks.get(num - 1);
 
             System.out.println("Choose action");
@@ -239,7 +242,11 @@ public class ListOfTasksView {
         Scanner in = new Scanner(System.in);
         System.out.print("Input a number: ");
         int num = in.nextInt();
-        if (num >= 1 && num <= taskForUsers.size()) {
+        if(taskForUsers.size() == 0){
+            System.out.println("You have no task in this list");
+            currentListOfTask = null;
+            return ListOfTasksViewResult.BACK_TO_LIST_VIEW;
+        }else if (num >= 1 && num <= taskForUsers.size()) {
             currentTaskForUser = taskForUsers.get(num - 1);
 
             System.out.println("Choose action");
@@ -264,6 +271,7 @@ public class ListOfTasksView {
                         return ListOfTasksViewResult.BACK_TO_LIST_VIEW;
                     case 5:
                         currentTaskForUser = null;
+                        currentListOfTask = null;
                         return ListOfTasksViewResult.BACK_TO_MAIN_MENU;
                 }
             } else {
@@ -361,7 +369,7 @@ public class ListOfTasksView {
     public ListOfTasksViewResult deleteList() {
         Scanner sc = new Scanner(System.in);
         System.out.println("Input list index to delete: ");
-        List<ListOfTasks> listOfTasks = listOfTasksController.getAllListsByUser(user);
+        List<ListOfTasks> listOfTasks = listOfTasksController.getListsCreatedByUser(user);
         showListOfTaskList(listOfTasks);
         System.out.print("Input a number: ");
         int num = sc.nextInt();
