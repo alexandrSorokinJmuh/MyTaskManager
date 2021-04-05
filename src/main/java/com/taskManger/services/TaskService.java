@@ -41,7 +41,7 @@ public class TaskService {
         Tasks task = new Tasks(taskUuid, name, creatorUuid, description, alertTime, false);
 
         taskRepository.create(task);
-
+        addWatcherForTask(creatorUuid, task.getUuid());
         return task;
     }
 
@@ -81,10 +81,6 @@ public class TaskService {
         taskRepository.delete(taskUuid);
     }
 
-    public Tasks firstTask(@NonNull User user){
-        String taskUuid = UUID.randomUUID().toString();
-        return new Tasks(taskUuid, "Create list of task", user.getUuid(), String.format("create list of task by user: %s (default)", user.getUsername()), new Date(), true);
-    }
 
     public List<Tasks> getAllTaskByUser(@NonNull String user) {
         return taskRepository.getTasksByCreator(user);
@@ -144,11 +140,11 @@ public class TaskService {
 
 
     public List<Tasks> getAvailableTasks(User user, List<Tasks> tasksList) {
-        List<Tasks> resultList = new LinkedList<>();
+        List<Tasks> resultList = new LinkedList<>(taskRepository.getTasksByCreator(user.getUuid()));
         try {
             List<Tasks> watchedTasks = getWatchedTasks(user.getUuid());
             for(Tasks task : tasksList) {
-                if(watchedTasks.contains(task)) {
+                if(watchedTasks.contains(task) && !resultList.contains(task)) {
                     resultList.add(task);
                 }
             }
@@ -172,5 +168,35 @@ public class TaskService {
             }
         }
         return resultList;
+    }
+
+    public List<User> getUsersNotWatchingTask(Tasks currentTask) {
+        List<User> resultList = new LinkedList<>();
+        try {
+            List<WatcherForTasks> watchers = watcherForTasksRepository.getEntitiesByContact(currentTask.getUuid());
+            List<User> userWatchers = watchers.stream().map((WatcherForTasks watcher) -> {
+                try {
+                    return (userRepository.getEntity(watcher.getUserUuid()));
+                } catch (UUIDIsNotUniqueException | EntityNotFoundException e) {
+                    e.printStackTrace();
+                }
+                return null;
+            }).collect(Collectors.toList());
+            List<User> allUsers = userRepository.getAll();
+            for (User user : allUsers){
+                if(!userWatchers.contains(user))
+                    resultList.add(user);
+            }
+
+        } catch (UUIDIsNotUniqueException | EntityNotFoundException e) {
+            e.printStackTrace();
+        }
+        return resultList;
+    }
+
+    public void addWatcherForTask(String user, String currentTask) throws UUIDIsNotUniqueException {
+//        String watcherUuid = UUID.randomUUID().toString();
+        WatcherForTasks watcherForTasks = new WatcherForTasks(currentTask, user);
+        watcherForTasksRepository.create(watcherForTasks);
     }
 }

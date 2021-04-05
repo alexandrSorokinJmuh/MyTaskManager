@@ -151,10 +151,14 @@ public class ViewResolver {
 //                    result = taskView.editTaskAlertTime();
                         result = taskView.editTaskAlertTime();
                         break;
+                    case ADD_WATCHER_TO_TASK:
+                        result = taskView.addWatcherToTask();
+                        break;
                     case WRONG_INPUT:
                         break;
                     case EDIT_SUCCESS:
                         break;
+                    case LIST_IS_EMPTY:
                     case BACK_TO_TASK_VIEW:
                         this.taskViewResponse(null);
                         return;
@@ -168,6 +172,7 @@ public class ViewResolver {
         }
         this.mainMenuViewResponse(null);
     }
+
 
     public void createTaskViewResponse(TaskViewResult result) {
         while (result != TaskViewResult.BACK_TO_MAIN_MENU && result != TaskViewResult.CREATE_SUCCESS) {
@@ -199,10 +204,11 @@ public class ViewResolver {
                 switch (result) {
                     case WRONG_INPUT:
                         break;
-                    case WRONG_NUMBER_OF_TASK:
+                    case WRONG_INDEX:
                         break;
                     case DELETE_SUCCESS:
                         break;
+                    case LIST_IS_EMPTY:
                     case BACK_TO_TASK_VIEW:
                         this.taskViewResponse(null);
                         return;
@@ -274,6 +280,7 @@ public class ViewResolver {
                         break;
                     case EDIT_SUCCESS:
                         break;
+                    case LIST_IS_EMPTY:
                     case BACK_TO_LIST_VIEW:
                         this.listOfTaskViewResponse(null);
                         return;
@@ -308,6 +315,7 @@ public class ViewResolver {
                         break;
                     case EDIT_SUCCESS:
                         break;
+                    case LIST_IS_EMPTY:
                     case BACK_TO_LIST_VIEW:
                         this.listOfTaskViewResponse(null);
                         return;
@@ -331,6 +339,7 @@ public class ViewResolver {
                         break;
                     case WRONG_INPUT:
                         break;
+                    case LIST_IS_EMPTY:
                     case BACK_TO_LIST_VIEW:
                         this.listOfTaskViewResponse(null);
                         return;
@@ -380,6 +389,7 @@ public class ViewResolver {
                         break;
                     case DELETE_SUCCESS:
                         break;
+                    case LIST_IS_EMPTY:
                     case BACK_TO_LIST_VIEW:
                         this.listOfTaskViewResponse(null);
                         return;
@@ -395,7 +405,7 @@ public class ViewResolver {
     }
 
 
-    public void findTaskViewResponse(FindTaskViewResult result){
+    public void findTaskViewResponse(FindTaskViewResult result) {
         while (result != FindTaskViewResult.BACK_TO_MAIN_MENU) {
             try {
                 result = findTaskView.mainMenu();
@@ -429,7 +439,7 @@ public class ViewResolver {
     }
 
 
-    public void filterByNameViewResponse(FindTaskViewResult result){
+    public void filterByNameViewResponse(FindTaskViewResult result) {
         while (result != FindTaskViewResult.BACK_TO_MAIN_MENU) {
             try {
                 result = findTaskView.filterByNameView();
@@ -458,7 +468,7 @@ public class ViewResolver {
         this.mainMenuViewResponse(null);
     }
 
-    public void filterByAlertTimeViewResponse(FindTaskViewResult result){
+    public void filterByAlertTimeViewResponse(FindTaskViewResult result) {
         while (result != FindTaskViewResult.BACK_TO_MAIN_MENU) {
             try {
                 result = findTaskView.filterByAlertTimeView();
@@ -487,7 +497,7 @@ public class ViewResolver {
         this.mainMenuViewResponse(null);
     }
 
-    public void filterByUserViewResponse(FindTaskViewResult result){
+    public void filterByUserViewResponse(FindTaskViewResult result) {
         while (result != FindTaskViewResult.BACK_TO_MAIN_MENU) {
             try {
                 result = findTaskView.filterByUserView();
@@ -518,7 +528,7 @@ public class ViewResolver {
         this.mainMenuViewResponse(null);
     }
 
-    public void filterByListViewResponse(FindTaskViewResult result){
+    public void filterByListViewResponse(FindTaskViewResult result) {
         while (result != FindTaskViewResult.BACK_TO_MAIN_MENU) {
             try {
                 result = findTaskView.filterByListView();

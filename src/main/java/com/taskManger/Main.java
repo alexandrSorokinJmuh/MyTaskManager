@@ -113,10 +113,6 @@ public class Main {
                 e.printStackTrace();
             }
 
-            List<WatcherForTasks> watcherForTasks = new LinkedList<>();
-            for (int i = 0; i < 10; i++) {
-                watcherForTasks.add(new WatcherForTasks(UUID.randomUUID().toString(), userList.get(i).getUuid()));
-            }
 
             List<ListOfTasks> listOfTasks = new LinkedList<>();
             for (int i = 0; i < 10; i++) {
@@ -137,8 +133,6 @@ public class Main {
                     e.printStackTrace();
                 }
             }
-
-            dataStorage.setWatcherForTasksList(watcherForTasks);
 
 
             try {

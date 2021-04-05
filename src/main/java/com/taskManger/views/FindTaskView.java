@@ -450,14 +450,14 @@ public class FindTaskView {
                     sc = new Scanner(System.in);
                     System.out.print("Input a first name pattern: ");
                     String firstNamePattern = sc.nextLine();
-                    filterTask.setNamePattern(firstNamePattern);
+                    filterTask.setFirstNamePattern(firstNamePattern);
                     return FindTaskViewResult.SET_FIRST_NAME_PATTERN;
                 case 4:
                     // Filter by lastName
                     sc = new Scanner(System.in);
                     System.out.print("Input a last name pattern: ");
                     String lastNamePattern = sc.nextLine();
-                    filterTask.setNamePattern(lastNamePattern);
+                    filterTask.setLastNamePattern(lastNamePattern);
                     return FindTaskViewResult.SET_LAST_NAME_PATTERN;
                 case 5:
                     // CLEAR_FILTER

@@ -26,7 +26,7 @@ public enum ListOfTasksViewResult {
 
     EDIT_SUCCESS,
 
-
+    LIST_IS_EMPTY,
 
     CREATE_SUCCESS,
 

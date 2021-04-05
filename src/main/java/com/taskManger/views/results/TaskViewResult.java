@@ -8,7 +8,7 @@ public enum TaskViewResult {
     EDIT_TASK,
     CREATE_TASK,
     DELETE_TASK,
-    WRONG_NUMBER_OF_TASK,
+    WRONG_INDEX,
 
     EDIT_NAME,
     EDIT_DESCRIPTION,
@@ -17,7 +17,11 @@ public enum TaskViewResult {
 
     CREATE_SUCCESS,
 
+    ADD_WATCHER_TO_TASK,
+
     DELETE_SUCCESS,
+
+    LIST_IS_EMPTY,
 
     BACK_TO_TASK_VIEW,
     BACK_TO_MAIN_MENU

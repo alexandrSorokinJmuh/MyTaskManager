@@ -85,4 +85,12 @@ public class TaskController {
     public List<Tasks> getTasksWithCreatorLike(String userNamePattern, String firstNamePattern, String lastNamePattern, List<Tasks> tasksList) {
         return taskService.getTasksWithCreatorLike(userNamePattern, firstNamePattern, lastNamePattern, tasksList);
     }
+
+    public List<User> getUsersNotWatchingTask(Tasks currentTask) {
+        return taskService.getUsersNotWatchingTask(currentTask);
+    }
+
+    public void addWatcherForTask(User user, Tasks currentTask) throws UUIDIsNotUniqueException {
+        taskService.addWatcherForTask(user.getUuid(), currentTask.getUuid());
+    }
 }

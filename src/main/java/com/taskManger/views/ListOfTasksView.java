@@ -10,6 +10,7 @@ import com.taskManger.entities.User;
 import com.taskManger.exception.EntityNotFoundException;
 import com.taskManger.exception.UUIDIsNotUniqueException;
 import com.taskManger.views.results.ListOfTasksViewResult;
+import com.taskManger.views.results.TaskViewResult;
 
 import java.util.List;
 import java.util.Scanner;
@@ -113,16 +114,15 @@ public class ListOfTasksView {
 
         List<ListOfTasks> listOfTasks = listOfTasksController.getListsCreatedByUser(user);
         showListOfTaskList(listOfTasks);
-
+        if (listOfTasks.size() == 0){
+            System.out.println("Have not lists to edit");
+            return ListOfTasksViewResult.LIST_IS_EMPTY;
+        }
         System.out.println("\n\nChoose list index to edit");
         Scanner in = new Scanner(System.in);
         System.out.print("Input a number: ");
         int num = in.nextInt();
-        if(listOfTasks.size() == 0){
-            System.out.println("You have no list");
-            currentListOfTask = null;
-            return ListOfTasksViewResult.BACK_TO_LIST_VIEW;
-        }else if (num >= 1 && num <= listOfTasks.size()) {
+        if (num >= 1 && num <= listOfTasks.size()) {
             currentListOfTask = listOfTasks.get(num - 1);
 
             System.out.println("Choose action");
@@ -165,7 +165,10 @@ public class ListOfTasksView {
     public ListOfTasksViewResult addTaskForUser(){
         List<Tasks> tasksList = listOfTasksController.getTasksNotInList(currentListOfTask);
         showTasks(tasksList);
-
+        if (tasksList.size() == 0){
+            System.out.println("Have not task to edit");
+            return ListOfTasksViewResult.LIST_IS_EMPTY;
+        }
         System.out.println("\n\nChoose task index to edit");
         Scanner sc = new Scanner(System.in);
         System.out.print("Input a number: ");
@@ -238,15 +241,16 @@ public class ListOfTasksView {
         List<TaskForUser> taskForUsers = listOfTasksController.getAllTasksByList(currentListOfTask);
 
         showTasksForUser(taskForUsers);
+        if (taskForUsers.size() == 0){
+            System.out.println("Have not task for user to edit");
+            return ListOfTasksViewResult.LIST_IS_EMPTY;
+        }
         System.out.println("\n\nChoose task index to edit");
         Scanner in = new Scanner(System.in);
         System.out.print("Input a number: ");
         int num = in.nextInt();
-        if(taskForUsers.size() == 0){
-            System.out.println("You have no task in this list");
-            currentListOfTask = null;
-            return ListOfTasksViewResult.BACK_TO_LIST_VIEW;
-        }else if (num >= 1 && num <= taskForUsers.size()) {
+
+        if (num >= 1 && num <= taskForUsers.size()) {
             currentTaskForUser = taskForUsers.get(num - 1);
 
             System.out.println("Choose action");
@@ -289,6 +293,10 @@ public class ListOfTasksView {
     public ListOfTasksViewResult addUserToTask(){
         List<User> userList = listOfTasksController.getUsersNotInTask(currentTaskForUser);
         showUsers(userList);
+        if (userList.size() == 0){
+            System.out.println("Have no user to add to task");
+            return ListOfTasksViewResult.LIST_IS_EMPTY;
+        }
         System.out.println("\n\nChoose user index to add");
         Scanner sc = new Scanner(System.in);
         int num = sc.nextInt();
@@ -368,10 +376,13 @@ public class ListOfTasksView {
 
     public ListOfTasksViewResult deleteList() {
         Scanner sc = new Scanner(System.in);
-        System.out.println("Input list index to delete: ");
         List<ListOfTasks> listOfTasks = listOfTasksController.getListsCreatedByUser(user);
         showListOfTaskList(listOfTasks);
-        System.out.print("Input a number: ");
+        if (listOfTasks.size() == 0){
+            System.out.println("Have no lists to delete");
+            return ListOfTasksViewResult.LIST_IS_EMPTY;
+        }
+        System.out.println("Input list index to delete: ");
         int num = sc.nextInt();
         if (num >= 1 && num <= listOfTasks.size()) {
             try {

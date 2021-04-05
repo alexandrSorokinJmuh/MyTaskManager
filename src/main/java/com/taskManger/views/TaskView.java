@@ -17,7 +17,7 @@ import java.util.Scanner;
 
 public class TaskView {
     private final int mainMenuActionCount = 5;
-    private final int editViewActionCount = 5;
+    private final int editViewActionCount = 6;
     private UserController userController;
     private TaskController taskController;
     private User user;
@@ -77,65 +77,105 @@ public class TaskView {
         return TaskViewResult.BACK_TO_MAIN_MENU;
     }
 
-    private void showTaskList(List<Tasks> tasksList){
-        for (int i = 0; i < tasksList.size(); i++){
-            System.out.println(String.format("%d: Task - %s", i+1, tasksList.get(i).getName()));
+    private void showTaskList(List<Tasks> tasksList) {
+        for (int i = 0; i < tasksList.size(); i++) {
+            System.out.println(String.format("%d: Task - %s", i + 1, tasksList.get(i).getName()));
         }
     }
 
-    public void showTasksToUser(){
+    private void showUserList(List<User> userList) {
+        for (int i = 0; i < userList.size(); i++) {
+            User user = userList.get(i);
+            System.out.println(String.format("%d: User - username: %s\tfirstName: %s\tlastName: %s", i + 1, user.getUsername(), user.getFirstName(), user.getLastName()));
+        }
+    }
+
+    public void showTasksToUser() {
         List<Tasks> tasksList = taskController.getAllTaskByUser(user);
         showTaskList(tasksList);
     }
 
-    public TaskViewResult editTask(){
+    public TaskViewResult editTask() {
         List<Tasks> tasksList = taskController.getAllTaskByUser(user);
-        System.out.println("\n\nChoose task index to edit");
+
         showTaskList(tasksList);
+        if (tasksList.size() == 0){
+            System.out.println("Have not tasks to edit");
+            return TaskViewResult.LIST_IS_EMPTY;
+        }
         Scanner in = new Scanner(System.in);
-        System.out.print("Input a number: ");
+        System.out.println("\n\nChoose task index to edit");
         int num = in.nextInt();
-        if (num >= 1 && num <= tasksList.size()){
+        if (num >= 1 && num <= tasksList.size()) {
             currentTask = tasksList.get(num - 1);
 
             System.out.println("Choose action");
             System.out.println("1. Edit task name");
             System.out.println("2. Edit task description");
             System.out.println("3. Edit task alert time");
-            System.out.println("4. Back to task actions");
-            System.out.println("5. Back to main menu");
+            System.out.println("4. Add task watcher");
+            System.out.println("5. Back to task actions");
+            System.out.println("6. Back to main menu");
             System.out.print("Input a number: ");
 
             num = in.nextInt();
-            if(num >= 1 && num <= editViewActionCount){
-                switch (num){
+            if (num >= 1 && num <= editViewActionCount) {
+                switch (num) {
                     case 1:
                         return TaskViewResult.EDIT_NAME;
                     case 2:
-                        break;
+                        return TaskViewResult.EDIT_DESCRIPTION;
                     case 3:
-                        break;
+                        return TaskViewResult.EDIT_ALERT_TIME;
                     case 4:
+                        return TaskViewResult.ADD_WATCHER_TO_TASK;
+                    case 5:
                         currentTask = null;
                         return TaskViewResult.BACK_TO_TASK_VIEW;
-                    case 5:
+                    case 6:
                         currentTask = null;
                         return TaskViewResult.BACK_TO_MAIN_MENU;
                 }
-            }else {
+            } else {
                 System.out.println("\n\nWrong input!!!\n");
                 return TaskViewResult.WRONG_INPUT;
             }
-        }else{
+        } else {
             System.out.println("\n\nWrong number of task!!!\n");
-            return TaskViewResult.WRONG_NUMBER_OF_TASK;
+            return TaskViewResult.WRONG_INDEX;
         }
         currentTask = null;
         return TaskViewResult.BACK_TO_TASK_VIEW;
 
     }
 
-    public TaskViewResult editTaskName(){
+    public TaskViewResult addWatcherToTask() {
+        List<User> users = taskController.getUsersNotWatchingTask(currentTask);
+        showUserList(users);
+        if (users.size() == 0){
+            System.out.println("Have not anymore users to add");
+            return TaskViewResult.LIST_IS_EMPTY;
+        }
+        Scanner sc = new Scanner(System.in);
+
+
+        System.out.println("Input user index: ");
+        int num = sc.nextInt();
+        if (num >= 1 && num <= users.size()){
+            User user = users.get(num - 1);
+            try {
+                taskController.addWatcherForTask(user, currentTask);
+            } catch (UUIDIsNotUniqueException e) {
+                e.printStackTrace();
+            }
+            return TaskViewResult.EDIT_SUCCESS;
+        }else {
+            System.out.println("\n\nWrong index of user!!!\n");
+            return TaskViewResult.WRONG_INDEX;
+        }
+    }
+
+    public TaskViewResult editTaskName() {
         Scanner sc = new Scanner(System.in);
         System.out.println("Input new task name: ");
         String nameNew = sc.nextLine();
@@ -149,7 +189,7 @@ public class TaskView {
         return TaskViewResult.EDIT_SUCCESS;
     }
 
-    public TaskViewResult editTaskDescription(){
+    public TaskViewResult editTaskDescription() {
         Scanner sc = new Scanner(System.in);
         System.out.println("Input new task description: ");
         String descriptionNew = sc.nextLine();
@@ -162,7 +202,7 @@ public class TaskView {
         return TaskViewResult.EDIT_SUCCESS;
     }
 
-    public TaskViewResult editTaskAlertTime(){
+    public TaskViewResult editTaskAlertTime() {
         Scanner sc = new Scanner(System.in);
         System.out.println("Input new task alert time: ");
         String date = sc.nextLine();
@@ -180,7 +220,7 @@ public class TaskView {
         return TaskViewResult.EDIT_SUCCESS;
     }
 
-    public TaskViewResult createTask(){
+    public TaskViewResult createTask() {
         Scanner sc = new Scanner(System.in);
         System.out.println("Input new task name: ");
         String nameNew = sc.nextLine();
@@ -194,7 +234,7 @@ public class TaskView {
         try {
             DateFormat dateFormat = new SimpleDateFormat("dd/mm/yyyy");
             dateNew = dateFormat.parse(date);
-        }catch (ParseException e) {
+        } catch (ParseException e) {
             System.out.println("\n\nWrong date format\n");
             return TaskViewResult.WRONG_INPUT;
         }
@@ -207,11 +247,15 @@ public class TaskView {
         return TaskViewResult.CREATE_SUCCESS;
     }
 
-    public TaskViewResult deleteTask(){
+    public TaskViewResult deleteTask() {
         Scanner sc = new Scanner(System.in);
         System.out.println("Input task index to delete: ");
         List<Tasks> tasksList = taskController.getAllTaskByUser(user);
         showTaskList(tasksList);
+        if (tasksList.size() == 0){
+            System.out.println("Have not tasks to delete");
+            return TaskViewResult.LIST_IS_EMPTY;
+        }
         System.out.print("Input a number: ");
         int num = sc.nextInt();
         if (num >= 1 && num <= tasksList.size()) {
@@ -221,9 +265,9 @@ public class TaskView {
                 e.printStackTrace();
                 return TaskViewResult.BACK_TO_MAIN_MENU;
             }
-        }else{
+        } else {
             System.out.println("\n\nWrong number of task!!!\n");
-            return TaskViewResult.WRONG_NUMBER_OF_TASK;
+            return TaskViewResult.WRONG_INDEX;
         }
         return TaskViewResult.DELETE_SUCCESS;
     }
