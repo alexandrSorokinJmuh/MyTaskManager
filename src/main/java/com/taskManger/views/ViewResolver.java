@@ -341,7 +341,7 @@ public class ViewResolver {
     public void deleteTaskForUserViewResponse(ListOfTasksViewResult result) {
         while (result != ListOfTasksViewResult.BACK_TO_MAIN_MENU && result != ListOfTasksViewResult.DELETE_SUCCESS) {
             try {
-                result = listOfTasksView.editTaskForUserView();
+                result = listOfTasksView.deleteTaskView();
                 switch (result) {
                     case DELETE_SUCCESS:
                         break;

@@ -212,7 +212,7 @@ public class TaskView {
         System.out.println("Input new task alert time: ");
         String date = sc.nextLine();
         try {
-            DateFormat dateFormat = new SimpleDateFormat("dd/mm/yyyy");
+            DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
             Date dateNew = dateFormat.parse(date);
             taskController.changeAlertTime(currentTask, dateNew);
         } catch (UUIDIsNotUniqueException | EntityNotFoundException e) {
@@ -237,7 +237,7 @@ public class TaskView {
         String date = sc.nextLine();
         Date dateNew;
         try {
-            DateFormat dateFormat = new SimpleDateFormat("dd/mm/yyyy");
+            DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
             dateNew = dateFormat.parse(date);
         } catch (ParseException e) {
             System.out.println("\n\nWrong date format\n");
