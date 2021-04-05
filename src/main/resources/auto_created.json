@@ -95,7 +95,7 @@
       "name": "task0",
       "creatorUuid": "09bdf064-dd27-4955-86b5-1efa73544098",
       "description": "",
-      "alert_time": "2021-04-05T13:17:41+0400",
+      "alert_time": "2022-01-02T00:02:00+0400",
       "alert_received": false
     },
     {
@@ -177,6 +177,14 @@
       "description": "YAAAY",
       "alert_time": "2022-01-14T00:12:00+0400",
       "alert_received": false
+    },
+    {
+      "uuid": "18dc9224-f0a5-4c05-93dc-0ba40624bd4f",
+      "name": "asd",
+      "creatorUuid": "09bdf064-dd27-4955-86b5-1efa73544098",
+      "description": "asd",
+      "alert_time": "2021-01-02T00:02:00+0400",
+      "alert_received": false
     }
   ],
   "watcherForTasks": [
@@ -223,6 +231,10 @@
     {
       "contactUuid": "aca6dccc-e8a5-4206-ae26-d7ff9775e446",
       "userUuid": "35d76dea-cd65-45f6-9182-d6431bc3a9ba"
+    },
+    {
+      "contactUuid": "18dc9224-f0a5-4c05-93dc-0ba40624bd4f",
+      "userUuid": "09bdf064-dd27-4955-86b5-1efa73544098"
     }
   ],
   "listOfTasks": [

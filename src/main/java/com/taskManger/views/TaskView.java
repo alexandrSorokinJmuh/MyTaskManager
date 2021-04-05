@@ -27,11 +27,16 @@ public class TaskView {
         this.user = user;
     }
 
+    public void notifyObservers(){
+        taskController.notifyObserver(user);
+    }
+
     public TaskView(UserController userController, TaskController taskController, User user, Tasks currentTask) {
         this.userController = userController;
         this.taskController = taskController;
         this.user = user;
         this.currentTask = currentTask;
+        taskController.getFromWatcherObservers();
     }
 
     public TaskView(UserController userController, TaskController taskController, User user) {

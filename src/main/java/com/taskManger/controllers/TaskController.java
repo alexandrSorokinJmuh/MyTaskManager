@@ -93,4 +93,12 @@ public class TaskController {
     public void addWatcherForTask(User user, Tasks currentTask) throws UUIDIsNotUniqueException {
         taskService.addWatcherForTask(user.getUuid(), currentTask.getUuid());
     }
+
+    public void notifyObserver(User user) {
+        taskService.notifyObserver(user);
+    }
+
+    public void getFromWatcherObservers() {
+        taskService.getFromWatcherObservers();
+    }
 }

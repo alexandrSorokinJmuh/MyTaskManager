@@ -6,6 +6,8 @@ import com.taskManger.entities.User;
 import com.taskManger.entities.WatcherForTasks;
 import com.taskManger.exception.EntityNotFoundException;
 import com.taskManger.exception.UUIDIsNotUniqueException;
+import com.taskManger.messages.AlertObserved;
+import com.taskManger.messages.Observed;
 import com.taskManger.repositories.*;
 import com.taskManger.views.ListOfTasksView;
 import lombok.NonNull;
@@ -18,12 +20,29 @@ public class TaskService {
     TaskRepository taskRepository;
     WatcherForTasksRepository watcherForTasksRepository;
     TaskForUserRepository taskForUserRepository;
+    Map<String, Observed> alertTaskObserved = new HashMap<>();
 
     public TaskService(UserRepository userRepository, TaskRepository taskRepository, WatcherForTasksRepository watcherForTasksRepository, TaskForUserRepository taskForUserRepository) {
         this.userRepository = userRepository;
         this.taskRepository = taskRepository;
         this.watcherForTasksRepository = watcherForTasksRepository;
         this.taskForUserRepository = taskForUserRepository;
+    }
+
+    public void getFromWatcherObservers(){
+        alertTaskObserved.clear();
+        for (Tasks task : taskRepository.getAll())
+            addTaskObserver(task);
+        for (WatcherForTasks watcherForTasks : watcherForTasksRepository.getAll()){
+            try {
+                User user = userRepository.getEntity(watcherForTasks.getUserUuid());
+                Tasks task = taskRepository.getEntity(watcherForTasks.getContactUuid());
+                addUserToObserver(task, user);
+            } catch (UUIDIsNotUniqueException | EntityNotFoundException e) {
+                e.printStackTrace();
+            }
+
+        }
     }
 
     public Tasks registerNewTask(String name, String creatorUuid, String description, Date alertTime) throws UUIDIsNotUniqueException {
@@ -41,6 +60,7 @@ public class TaskService {
         Tasks task = new Tasks(taskUuid, name, creatorUuid, description, alertTime, false);
 
         taskRepository.create(task);
+        addTaskObserver(task);
         addWatcherForTask(creatorUuid, task.getUuid());
         return task;
     }
@@ -81,6 +101,32 @@ public class TaskService {
         taskRepository.delete(taskUuid);
     }
 
+    public void notifyObserver(User user){
+        List<Tasks> tasksList = getAvailableTasks(user, alertTaskObserved.keySet().stream()
+                .map((String task)->{
+                    try {
+                        Tasks taskEntity = taskRepository.getEntity(task);
+                        return taskEntity;
+                    } catch (UUIDIsNotUniqueException | EntityNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                    return null;
+                }).collect(Collectors.toList())
+        );
+        for (Tasks task : tasksList){
+            alertTaskObserved.get(task.getUuid()).notifyObserver(user);
+        }
+    }
+
+    public Observed addTaskObserver(Tasks task){
+        AlertObserved alertObserved = new AlertObserved(task);
+        alertTaskObserved.put(task.getUuid(), alertObserved);
+        return alertObserved;
+    }
+
+    public void addUserToObserver(Tasks task, User user){
+        alertTaskObserved.get(task.getUuid()).addObserver(user);
+    }
 
     public List<Tasks> getAllTaskByUser(@NonNull String user) {
         return taskRepository.getTasksByCreator(user);
@@ -198,5 +244,13 @@ public class TaskService {
 //        String watcherUuid = UUID.randomUUID().toString();
         WatcherForTasks watcherForTasks = new WatcherForTasks(currentTask, user);
         watcherForTasksRepository.create(watcherForTasks);
+        try {
+            User userEntity = userRepository.getEntity(user);
+            Tasks task = taskRepository.getEntity(currentTask);
+            addUserToObserver(task, userEntity);
+        } catch (EntityNotFoundException e) {
+            e.printStackTrace();
+        }
+
     }
 }

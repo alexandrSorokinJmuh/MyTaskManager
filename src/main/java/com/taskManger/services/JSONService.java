@@ -105,14 +105,16 @@ public class JSONService {
             ProcessingReport report = jsonSchema.validate(mapper.readTree(jsonFile));
 
             if (report.isSuccess()){
-                System.out.println("horosho");
 
                 Gson gson = new Gson();
 
                 try(FileReader reader = new FileReader(jsonFile)){
                     JSONFormatList jsonFormatList = gson.fromJson(reader, JSONFormatList.class);
-                    System.out.println(jsonFormatList);
+
+
                     this.exportToDataStorage(jsonFormatList);
+
+
                 }catch (Exception e){
                     e.printStackTrace();
                 }
@@ -135,6 +137,8 @@ public class JSONService {
         }
 
     }
+
+
 
     public void exportJson() throws IOException{
         this.createJsonFile(jsonFile);

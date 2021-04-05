@@ -1,6 +1,7 @@
 package com.taskManger.views;
 
 import com.taskManger.entities.User;
+import com.taskManger.services.TaskService;
 import com.taskManger.views.results.*;
 
 import java.util.InputMismatchException;
@@ -71,6 +72,7 @@ public class ViewResolver {
     public void mainMenuViewResponse(MainMenuViewResult result) {
         AuthorizationViewResult authorizationViewResult = null;
         while (result != MainMenuViewResult.EXIT && result != MainMenuViewResult.LOG_OUT) {
+            taskView.notifyObservers();
             try {
                 result = mainMenuView.mainMenu();
                 switch (result) {
@@ -105,6 +107,7 @@ public class ViewResolver {
 
     public void taskViewResponse(TaskViewResult result) {
         while (result != TaskViewResult.BACK_TO_MAIN_MENU) {
+            taskView.notifyObservers();
             try {
                 result = taskView.mainMenu();
 
@@ -137,6 +140,7 @@ public class ViewResolver {
 
     public void editTaskViewResponse(TaskViewResult result) {
         while (result != TaskViewResult.BACK_TO_MAIN_MENU && result != TaskViewResult.EDIT_SUCCESS) {
+            taskView.notifyObservers();
             try {
                 result = taskView.editTask();
                 switch (result) {
@@ -227,6 +231,7 @@ public class ViewResolver {
     // ListOfTask
     public void listOfTaskViewResponse(ListOfTasksViewResult result) {
         while (result != ListOfTasksViewResult.BACK_TO_MAIN_MENU) {
+            taskView.notifyObservers();
             try {
                 result = listOfTasksView.mainMenu();
 
@@ -407,6 +412,7 @@ public class ViewResolver {
 
     public void findTaskViewResponse(FindTaskViewResult result) {
         while (result != FindTaskViewResult.BACK_TO_MAIN_MENU) {
+            taskView.notifyObservers();
             try {
                 result = findTaskView.mainMenu();
 
