@@ -2,13 +2,14 @@ package com.taskManger.messages;
 
 import com.taskManger.entities.Tasks;
 import com.taskManger.entities.User;
+import lombok.Getter;
 
 import java.util.LinkedList;
 import java.util.List;
 
 public class AlertObserved implements Observed{
     Tasks task;
-
+    @Getter
     List<Observer> userList = new LinkedList<>();
 
     public AlertObserved(Tasks task) {

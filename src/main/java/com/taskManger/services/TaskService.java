@@ -8,6 +8,7 @@ import com.taskManger.exception.EntityNotFoundException;
 import com.taskManger.exception.UUIDIsNotUniqueException;
 import com.taskManger.messages.AlertObserved;
 import com.taskManger.messages.Observed;
+import com.taskManger.messages.Observer;
 import com.taskManger.repositories.*;
 import com.taskManger.views.ListOfTasksView;
 import lombok.NonNull;
@@ -96,8 +97,16 @@ public class TaskService {
         List<TaskForUser> taskForUsers = taskForUserRepository.getEntitiesByTask(taskUuid);
         for (TaskForUser i : taskForUsers){
             taskForUserRepository.delete(i.getUuid());
-        }
 
+        }
+        for (WatcherForTasks i : watcherForTasksRepository.getEntitiesByContact(taskUuid)){
+            watcherForTasksRepository.delete(i.getContactUuid(), i.getUserUuid());
+        }
+        Tasks task = taskRepository.getEntity(taskUuid);
+        AlertObserved alertObserved = (AlertObserved) alertTaskObserved.get(task.getUuid());
+        for (Observer observer : alertObserved.getUserList())
+            alertObserved.removeObserver(observer);
+        alertTaskObserved.remove(task.getUuid());
         taskRepository.delete(taskUuid);
     }
 
