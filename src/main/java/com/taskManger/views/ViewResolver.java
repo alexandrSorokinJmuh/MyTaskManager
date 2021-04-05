@@ -268,6 +268,8 @@ public class ViewResolver {
             try {
                 result = listOfTasksView.editListOfTask();
                 switch (result) {
+
+
                     case EDIT_LIST_NAME:
                         result = listOfTasksView.editListName();
                         break;
@@ -285,6 +287,7 @@ public class ViewResolver {
                         break;
                     case EDIT_SUCCESS:
                         break;
+                    case SHOW_TASKS:
                     case LIST_IS_EMPTY:
                     case BACK_TO_LIST_VIEW:
                         this.listOfTaskViewResponse(null);

@@ -5,7 +5,7 @@ public enum ListOfTasksViewResult {
     WRONG_INDEX,
 
     SHOW_LISTS,
-
+    SHOW_TASKS,
     EDIT_LIST,
     EDIT_LIST_NAME,
     ADD_TASK,

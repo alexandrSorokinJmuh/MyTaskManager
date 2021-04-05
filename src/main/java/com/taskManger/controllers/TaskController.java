@@ -7,8 +7,7 @@ import com.taskManger.exception.UUIDIsNotUniqueException;
 import com.taskManger.services.TaskService;
 import lombok.NonNull;
 
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 public class TaskController {
     TaskService taskService;
@@ -25,7 +24,7 @@ public class TaskController {
     }
 
 
-    public List<Tasks> getAllTaskByUser(@NonNull User user){
+    public List<Tasks> getTasksByCreator(@NonNull User user){
         return taskService.getAllTaskByUser(user.getUuid());
     }
 
@@ -100,5 +99,15 @@ public class TaskController {
 
     public void getFromWatcherObservers() {
         taskService.getFromWatcherObservers();
+    }
+    public List<Tasks> getAllTasksByUser(User user) {
+
+        Set<Tasks> result = new HashSet(taskService.getAllTaskToUser(user));
+        result.addAll(taskService.getAvailableTasks(user, taskService.getAll()));
+
+        return new ArrayList<>(result);
+    }
+    public List<Tasks> getAllTaskToUser(User user) {
+        return taskService.getAllTaskToUser(user);
     }
 }

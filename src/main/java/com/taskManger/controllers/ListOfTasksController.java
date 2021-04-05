@@ -91,4 +91,8 @@ public class ListOfTasksController {
     public List<Tasks> getTasksWithListNameLike(String listNamePattern, List<Tasks> resultList) {
         return listOfTaskService.getTasksWithListNameLike(listNamePattern, resultList);
     }
+
+    public ListOfTasks getListByUuid(String listUuid) throws UUIDIsNotUniqueException, EntityNotFoundException {
+        return listOfTaskService.getListByUuid(listUuid);
+    }
 }

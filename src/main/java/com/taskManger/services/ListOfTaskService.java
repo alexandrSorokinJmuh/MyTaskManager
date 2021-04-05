@@ -213,4 +213,8 @@ public class ListOfTaskService {
         return resultList;
 
     }
+
+    public ListOfTasks getListByUuid(String listUuid) throws UUIDIsNotUniqueException, EntityNotFoundException {
+        return listOfTasksRepository.getEntity(listUuid);
+    }
 }

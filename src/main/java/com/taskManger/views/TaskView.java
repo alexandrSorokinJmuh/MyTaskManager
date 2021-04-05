@@ -96,12 +96,12 @@ public class TaskView {
     }
 
     public void showTasksToUser() {
-        List<Tasks> tasksList = taskController.getAllTaskByUser(user);
+        List<Tasks> tasksList = taskController.getAllTasksByUser(user);
         showTaskList(tasksList);
     }
 
     public TaskViewResult editTask() {
-        List<Tasks> tasksList = taskController.getAllTaskByUser(user);
+        List<Tasks> tasksList = taskController.getAllTasksByUser(user);
 
         showTaskList(tasksList);
         if (tasksList.size() == 0){
@@ -255,7 +255,7 @@ public class TaskView {
     public TaskViewResult deleteTask() {
         Scanner sc = new Scanner(System.in);
         System.out.println("Input task index to delete: ");
-        List<Tasks> tasksList = taskController.getAllTaskByUser(user);
+        List<Tasks> tasksList = taskController.getAllTasksByUser(user);
         showTaskList(tasksList);
         if (tasksList.size() == 0){
             System.out.println("Have not tasks to delete");

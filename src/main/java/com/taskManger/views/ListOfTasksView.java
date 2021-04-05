@@ -17,7 +17,7 @@ import java.util.Scanner;
 
 public class ListOfTasksView {
     private final int mainMenuActionCount = 5;
-    private final int editListActionCount = 5;
+    private final int editListActionCount = 6;
     private final int editTaskActionCount = 5;
     private final int deleteTaskActionCount = 4;
     private UserController userController;
@@ -82,7 +82,17 @@ public class ListOfTasksView {
 
     private void showTasksForUser(List<TaskForUser> taskForUsers) {
         for (int i = 0; i < taskForUsers.size(); i++) {
-            System.out.println(String.format("%d: List - %s", i + 1, taskForUsers.get(i).getName()));
+            TaskForUser taskForUser = taskForUsers.get(i);
+            try {
+                ListOfTasks listOfTasks = listOfTasksController.getListByUuid(taskForUser.getListUuid());
+                User user = userController.getUserByUuid(taskForUser.getUserUuid());
+                Tasks task = taskController.getTaskByUuid(taskForUser.getTaskUuid());
+                System.out.println(String.format("%d: '%s' from List: '%s'\t-\tTask: '%s' \tUser: '%s'", i + 1, taskForUser.getName(), listOfTasks.getName(), task.getName(), user.getUsername()));
+
+            } catch (UUIDIsNotUniqueException | EntityNotFoundException e) {
+                e.printStackTrace();
+            }
+
         }
     }
 
@@ -105,14 +115,14 @@ public class ListOfTasksView {
         }
     }
     public void showListsToUser() {
-        List<ListOfTasks> listOfTasks = listOfTasksController.getListsCreatedByUser(user);
+        List<ListOfTasks> listOfTasks = listOfTasksController.getAllListsByUser(user);
         showListOfTaskList(listOfTasks);
     }
 
 
     public ListOfTasksViewResult editListOfTask() {
 
-        List<ListOfTasks> listOfTasks = listOfTasksController.getListsCreatedByUser(user);
+        List<ListOfTasks> listOfTasks = listOfTasksController.getAllListsByUser(user);
         showListOfTaskList(listOfTasks);
         if (listOfTasks.size() == 0){
             System.out.println("Have not lists to edit");
@@ -126,26 +136,30 @@ public class ListOfTasksView {
             currentListOfTask = listOfTasks.get(num - 1);
 
             System.out.println("Choose action");
-            System.out.println("1. Edit name");
-            System.out.println("2. Add task for user");
-            System.out.println("3. Edit task for user");
-            System.out.println("4. Back to lists actions");
-            System.out.println("5. Back to main menu");
+            System.out.println("1. Show tasks");
+            System.out.println("2. Edit name");
+            System.out.println("3. Add task for user");
+            System.out.println("4. Edit task for user");
+            System.out.println("5. Back to lists actions");
+            System.out.println("6. Back to main menu");
             System.out.print("Input a number: ");
 
             num = in.nextInt();
             if (num >= 1 && num <= editListActionCount) {
                 switch (num) {
                     case 1:
-                        return ListOfTasksViewResult.EDIT_LIST_NAME;
+                        showTasksForUser(listOfTasksController.getAllTasksByList(currentListOfTask));
+                        return ListOfTasksViewResult.SHOW_TASKS;
                     case 2:
-                        return ListOfTasksViewResult.ADD_TASK;
+                        return ListOfTasksViewResult.EDIT_LIST_NAME;
                     case 3:
-                        return ListOfTasksViewResult.EDIT_TASK_FOR_USER;
+                        return ListOfTasksViewResult.ADD_TASK;
                     case 4:
+                        return ListOfTasksViewResult.EDIT_TASK_FOR_USER;
+                    case 5:
                         currentListOfTask = null;
                         return ListOfTasksViewResult.BACK_TO_LIST_VIEW;
-                    case 5:
+                    case 6:
                         currentListOfTask = null;
                         return ListOfTasksViewResult.BACK_TO_MAIN_MENU;
                 }
@@ -376,7 +390,7 @@ public class ListOfTasksView {
 
     public ListOfTasksViewResult deleteList() {
         Scanner sc = new Scanner(System.in);
-        List<ListOfTasks> listOfTasks = listOfTasksController.getListsCreatedByUser(user);
+        List<ListOfTasks> listOfTasks = listOfTasksController.getAllListsByUser(user);
         showListOfTaskList(listOfTasks);
         if (listOfTasks.size() == 0){
             System.out.println("Have no lists to delete");

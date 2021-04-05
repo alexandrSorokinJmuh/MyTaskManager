@@ -262,4 +262,17 @@ public class TaskService {
         }
 
     }
+
+    public List<Tasks> getAllTaskToUser(User user) {
+        List<TaskForUser> taskForUserList = taskForUserRepository.getEntitiesByUser(user.getUuid());
+        List<Tasks> resultList = taskForUserList.stream().map((TaskForUser taskForUser) ->{
+            try {
+                return taskRepository.getEntity(taskForUser.getTaskUuid());
+            } catch (UUIDIsNotUniqueException | EntityNotFoundException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }).collect(Collectors.toList());
+        return resultList;
+    }
 }
