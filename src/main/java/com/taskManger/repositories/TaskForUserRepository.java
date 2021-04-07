@@ -48,7 +48,7 @@ public class TaskForUserRepository implements Repository{
 
     public List<TaskForUser> getEntitiesByTask(@NonNull String taskUuid) throws NullPointerException {
 
-        List<TaskForUser> result = this.findBy((Entity x) -> ((TaskForUser)x).getListUuid().equals(taskUuid));
+        List<TaskForUser> result = this.findBy((Entity x) -> ((TaskForUser)x).getTaskUuid().equals(taskUuid));
 
         return result;
     }
