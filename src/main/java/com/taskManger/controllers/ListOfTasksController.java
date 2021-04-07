@@ -7,6 +7,7 @@ import com.taskManger.entities.User;
 import com.taskManger.exception.EntityNotFoundException;
 import com.taskManger.exception.UUIDIsNotUniqueException;
 import com.taskManger.services.ListOfTaskService;
+import com.taskManger.services.TaskService;
 import lombok.NonNull;
 
 import java.util.HashSet;
@@ -17,9 +18,11 @@ import java.util.Set;
 public class ListOfTasksController {
 
     ListOfTaskService listOfTaskService;
+    TaskService taskService;
 
-    public ListOfTasksController(ListOfTaskService listOfTaskService) {
+    public ListOfTasksController(ListOfTaskService listOfTaskService, TaskService taskService) {
         this.listOfTaskService = listOfTaskService;
+        this.taskService = taskService;
     }
 
     public ListOfTasks createNewListOfTasks(@NonNull User user, @NonNull String name) throws UUIDIsNotUniqueException {
@@ -64,7 +67,7 @@ public class ListOfTasksController {
     }
 
     public void deleteTask(@NonNull TaskForUser taskForUser) throws UUIDIsNotUniqueException, EntityNotFoundException {
-        listOfTaskService.deleteTask(taskForUser.getTaskUuid());
+        taskService.deleteTask(taskForUser.getTaskUuid());
     }
 
     public List<User> getUsersNotInTask(@NonNull TaskForUser taskForUser){

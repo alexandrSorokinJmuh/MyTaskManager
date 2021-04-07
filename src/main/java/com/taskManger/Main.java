@@ -47,7 +47,7 @@ public class Main {
         // Controllers
         UserController userController = new UserController(userService);
         TaskController taskController = new TaskController(taskService);
-        ListOfTasksController listOfTasksController = new ListOfTasksController(listOfTaskService);
+        ListOfTasksController listOfTasksController = new ListOfTasksController(listOfTaskService, taskService);
 
 
         // Import json data
